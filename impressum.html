@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Impressum – Lamina Labs</title>
+  <link rel="icon" href="assets/logo.png" />
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: radial-gradient(circle at center, #0c0c1f, #05050f);
+      color: #f5f5f5;
+      line-height: 1.7;
+      padding: 0 1rem;
+      transition: all 0.3s ease;
+    }
+
+    header {
+      text-align: center;
+      padding: 4rem 1rem 2rem;
+      position: relative;
+    }
+
+    .logo {
+      width: 100px;
+      margin-bottom: 1rem;
+      filter: drop-shadow(0 0 12px #00ffccaa);
+    }
+
+    h1 {
+      font-size: 2.5rem;
+      color: #00ffee;
+      text-shadow: 0 0 10px #00ffee55;
+      margin-bottom: 0.5rem;
+    }
+
+    .lang-switch {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      font-size: 0.9rem;
+    }
+
+    .lang-switch a {
+      color: #00ffee;
+      text-decoration: none;
+      margin: 0 6px;
+      font-weight: bold;
+    }
+
+    main {
+      max-width: 900px;
+      margin: 0 auto 3rem;
+      padding: 2rem;
+      border-radius: 12px;
+      background: rgba(0, 255, 204, 0.03);
+      border: 1px solid rgba(0, 255, 204, 0.08);
+      box-shadow: 0 0 24px rgba(0, 255, 204, 0.05);
+      backdrop-filter: blur(4px);
+    }
+
+    h2 {
+      font-size: 1.4rem;
+      color: #00ffee;
+      margin-top: 2rem;
+      margin-bottom: 1rem;
+      text-shadow: 0 0 6px #00ffee55;
+    }
+
+    p {
+      margin-bottom: 1rem;
+      color: #dddddd;
+    }
+
+    a {
+      color: #00ffee;
+      text-decoration: underline;
+    }
+
+    footer {
+      text-align: center;
+      padding: 2rem 1rem;
+      font-size: 0.9rem;
+      color: #888;
+      border-top: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .footer-links {
+      margin-bottom: 0.5rem;
+    }
+
+    .footer-links a {
+      color: #00ffee;
+      text-decoration: none;
+      margin: 0 8px;
+    }
+
+    .footer-links a:hover {
+      text-decoration: underline;
+    }
+
+    .lang-en, .lang-de { display: none; }
+    body.en .lang-en,
+    body.de .lang-de { display: block; }
+
+    @media (max-width: 600px) {
+      h1 { font-size: 2rem; }
+      h2 { font-size: 1.1rem; }
+      main { padding: 1.5rem; }
+    }
+  </style>
+</head>
+<body class="en">
+    <div class="lang-switch">
+        <a href="#" onclick="setLang('en'); return false;">EN</a> |
+        <a href="#" onclick="setLang('de'); return false;">DE</a>
+      </div>
+
+  <header>
+    <img src="assets/logo.png" alt="Lamina Labs Logo" class="logo" />
+    <h1>Impressum</h1>
+  </header>
+
+  <main>
+    <div class="lang-en">
+      <p>This legal notice applies to all pages of Lamina Labs published under <strong>laminalabs.app</strong>.</p>
+
+      <h2>Responsible for Content</h2>
+      <p>F. B. (natural person)<br>
+      Email: <a href="mailto:laminalabsofficial@gmail.com">laminalabsofficial@gmail.com</a></p>
+
+      <h2>Disclaimer</h2>
+      <p>All content has been created with care. However, we do not guarantee accuracy, completeness, or timeliness. We are not responsible for external links.</p>
+
+      <h2>Hosting</h2>
+      <p>This website is hosted on Netlify. Server logs may be recorded by Netlify in accordance with their privacy policy.</p>
+    </div>
+
+    <div class="lang-de">
+      <p>Dieses Impressum gilt für alle Seiten von Lamina Labs unter <strong>laminalabs.app</strong>.</p>
+
+      <h2>Verantwortlich für den Inhalt</h2>
+      <p>F. B. (natürliche Person)<br>
+      E-Mail: <a href="mailto:laminalabsofficial@gmail.com">laminalabsofficial@gmail.com</a></p>
+
+      <h2>Haftungsausschluss</h2>
+      <p>Die Inhalte dieser Seite wurden mit größter Sorgfalt erstellt. Für die Richtigkeit, Vollständigkeit und Aktualität übernehmen wir keine Gewähr. Für Inhalte externer Links übernehmen wir keine Haftung.</p>
+
+      <h2>Hosting</h2>
+      <p>Diese Website wird bei Netlify gehostet. Server-Logs können gemäß der Datenschutzrichtlinie von Netlify aufgezeichnet werden.</p>
+    </div>
+  </main>
+
+  <footer>
+    <div class="footer-links">
+      <a href="index.html">Home</a>
+      <a href="privacy.html">Privacy</a>
+    </div>
+    <p>© 2024 Lamina Labs. All rights reserved.</p>
+  </footer>
+
+  <script>
+    function setLang(lang) {
+      document.body.className = lang;
+    }
+  </script>
+</body>
+</html>
