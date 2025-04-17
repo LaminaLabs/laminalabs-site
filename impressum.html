@@ -3,190 +3,175 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Impressum for Lamina Labs, providing legal information and contact details for laminalabs.app." />
+  <meta name="keywords" content="Lamina Labs, Impressum, legal notice, contact" />
+  <meta name="author" content="Lamina Labs" />
   <title>Impressum – Lamina Labs</title>
   <link rel="icon" type="image/png" href="assets/logo.png" />
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.2/css/all.min.css" rel="stylesheet" />
   <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
+    @keyframes gradient {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
 
     body {
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-      background: radial-gradient(circle at center, #0c0c1f, #05050f, #020207);
-      color: #e0e7ff;
-      line-height: 1.6;
-      padding: 0 1rem;
+      background: linear-gradient(45deg, #1a1a3d, #2a2a5e, #3a3a7d);
+      background-size: 400% 400%;
+      animation: gradient 15s ease infinite;
+      font-family: 'Inter', system-ui, sans-serif;
+      color: #e5e7eb;
+      scroll-behavior: smooth;
     }
 
-    header {
-      text-align: center;
-      padding: 3rem 1rem 2rem;
-      position: relative;
+    .main-container {
+      opacity: 0;
+      transform: translateY(20px);
+      animation: fadeInUp 0.6s ease-out forwards;
     }
 
-    .logo {
-      width: 80px;
-      margin-bottom: 1rem;
-      filter: drop-shadow(0 0 12px rgba(0, 255, 204, 0.66));
-    }
-
-    h1 {
-      font-size: 2.5rem;
-      color: #00ffee;
-      text-shadow: 0 0 10px rgba(0, 255, 238, 0.5);
-      margin-bottom: 0.5rem;
-    }
-
-    .lang-switch {
-      position: absolute;
-      top: 1.5rem;
-      right: 1.5rem;
-      font-size: 0.9rem;
+    @keyframes fadeInUp {
+      to { opacity: 1; transform: translateY(0); }
     }
 
     .lang-switch a {
-      color: #00ffee;
-      text-decoration: none;
-      margin: 0 6px;
-      font-weight: bold;
-      transition: all 0.3s ease;
+      transition: color 0.3s ease, transform 0.3s ease;
     }
 
     .lang-switch a:hover {
-      text-decoration: underline;
-      opacity: 0.8;
+      color: #10b981;
+      transform: scale(1.1);
     }
 
-    main {
-      max-width: 800px;
-      margin: 0 auto 3rem;
-      padding: 2rem;
-      border-radius: 12px;
+    .card {
       background: rgba(255, 255, 255, 0.05);
-      border: 1px solid rgba(0, 255, 204, 0.2);
-      box-shadow: 0 0 24px rgba(0, 255, 204, 0.1);
-      backdrop-filter: blur(8px);
+      border: 1px solid rgba(167, 243, 208, 0.3);
+      backdrop-filter: blur(12px);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
     }
 
-    h2 {
-      font-size: 1.5rem;
-      color: #00ffee;
-      margin-top: 2rem;
-      margin-bottom: 1rem;
-      text-shadow: 0 0 6px rgba(0, 255, 238, 0.5);
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
     }
 
-    p {
-      margin-bottom: 1rem;
-      color: #d1d5db;
-      font-size: 1rem;
+    footer a {
+      transition: color 0.3s ease, transform 0.3s ease;
     }
 
-    a {
-      color: #00ffee;
-      text-decoration: underline;
-      transition: all 0.3s ease;
-    }
-
-    a:hover {
-      opacity: 0.8;
-    }
-
-    footer {
-      text-align: center;
-      padding: 2rem 1rem;
-      font-size: 0.9rem;
-      color: #888;
-      border-top: 1px solid rgba(255, 255, 255, 0.05);
-      margin-top: 2rem;
-    }
-
-    .footer-links {
-      margin-bottom: 0.5rem;
-    }
-
-    .footer-links a {
-      color: #00ffee;
-      text-decoration: none;
-      margin: 0 8px;
-      transition: all 0.3s ease;
-    }
-
-    .footer-links a:hover {
-      text-decoration: underline;
-      opacity: 0.8;
-    }
-
-    .lang-en, .lang-de { display: none; }
-    body.en .lang-en,
-    body.de .lang-de { display: block; }
-
-    @media (max-width: 600px) {
-      h1 { font-size: 2rem; }
-      h2 { font-size: 1.25rem; }
-      main { padding: 1.5rem; }
-      .logo { width: 60px; }
+    footer a:hover {
+      color: #10b981;
+      transform: scale(1.05);
     }
   </style>
 </head>
 <body class="en">
-  <div class="lang-switch">
-    <a href="#" onclick="setLang('en')">EN</a> | <a href="#" onclick="setLang('de')">DE</a>
+  <div class="lang-switch fixed top-6 right-6 z-50">
+    <a href="#" onclick="setLang('en')" class="text-emerald-400 font-semibold mx-2" aria-label="Switch to English">EN</a>
+    <span class="text-gray-400">|</span>
+    <a href="#" onclick="setLang('de')" class="text-emerald-400 font-semibold mx-2" aria-label="Switch to German">DE</a>
   </div>
 
-  <header>
-    <img src="assets/logo.png" alt="Lamina Labs Logo" class="logo" />
-    <h1>Impressum</h1>
+  <header class="text-center pt-16 pb-8">
+    <img src="assets/logo.png" alt="Lamina Labs Logo" class="w-20 mx-auto mb-4 filter drop-shadow-lg" />
+    <h1 class="text-4xl font-bold text-emerald-400 drop-shadow-md">Impressum</h1>
   </header>
 
-  <main>
+  <main class="main-container max-w-3xl mx-auto px-6 py-8 card rounded-2xl">
     <div class="lang-en">
-      <p>This legal notice applies to all pages of Lamina Labs published under <strong>laminalabs.app</strong>.</p>
+      <section>
+        <p class="text-gray-300 mb-6">This legal notice applies to all pages of Lamina Labs published under <strong>laminalabs.app</strong>.</p>
+      </section>
 
-      <h2>Responsible for Content</h2>
-      <p>F. B. (natural person)<br>
-      Email: <a href="mailto:laminalabsofficial@gmail.com">laminalabsofficial@gmail.com</a></p>
+      <section>
+        <h2 class="text-2xl font-semibold text-emerald-400 mb-4">Responsible for Content</h2>
+        <p class="text-gray-300 mb-6">F. B. (natural person)<br>
+        Email: <a href="mailto:laminalabsofficial@gmail.com" class="text-emerald-400 hover:underline">laminalabsofficial@gmail.com</a></p>
+      </section>
 
-      <h2>Disclaimer</h2>
-      <p>All content has been created with care. However, we do not guarantee accuracy, completeness, or timeliness. We are not responsible for external links.</p>
-      <p>The content on this website does not constitute legal advice. For legal inquiries, please consult a qualified professional.</p>
+      <section>
+        <h2 class="text-2xl font-semibold text-emerald-400 mb-4">Disclaimer</h2>
+        <p class="text-gray-300 mb-6">All content has been created with care. However, we do not guarantee accuracy, completeness, or timeliness. We are not responsible for external links.</p>
+        <p class="text-gray-300 mb-6">The content on this website does not constitute legal advice. For legal inquiries, please consult a qualified professional.</p>
+      </section>
 
-      <h2>Hosting</h2>
-      <p>This website is hosted on Netlify. Server logs may be recorded by Netlify in accordance with their <a href="https://www.netlify.com/privacy/" target="_blank" rel="noopener noreferrer">privacy policy</a>.</p>
+      <section>
+        <h2 class="text-2xl font-semibold text-emerald-400 mb-4">Hosting</h2>
+        <p class="text-gray-300 mb-6">This website is hosted on Netlify. Server logs may be recorded by Netlify in accordance with their <a href="https://www.netlify.com/privacy/" target="_blank" rel="noopener noreferrer" class="text-emerald-400 hover:underline">privacy policy</a>.</p>
+      </section>
 
-      <h2>Copyright</h2>
-      <p>All content, including text, images, and logos, is the property of Lamina Labs unless otherwise stated. Unauthorized use or reproduction is prohibited.</p>
+      <section>
+        <h2 class="text-2xl font-semibold text-emerald-400 mb-4">Copyright</h2>
+        <p class="text-gray-300 mb-6">All content, including text, images, and logos, is the property of Lamina Labs unless otherwise stated. Unauthorized use or reproduction is prohibited.</p>
+      </section>
     </div>
 
-    <div class="lang-de">
-      <p>Dieses Impressum gilt für alle Seiten von Lamina Labs unter <strong>laminalabs.app</strong>.</p>
+    <div class="lang-de hidden">
+      <section>
+        <p class="text-gray-300 mb-6">Dieses Impressum gilt für alle Seiten von Lamina Labs unter <strong>laminalabs.app</strong>.</p>
+      </section>
 
-      <h2>Verantwortlich für den Inhalt</h2>
-      <p>F. B. (natürliche Person)<br>
-      E-Mail: <a href="mailto:laminalabsofficial@gmail.com">laminalabsofficial@gmail.com</a></p>
+      <section>
+        <h2 class="text-2xl font-semibold text-emerald-400 mb-4">Verantwortlich für den Inhalt</h2>
+        <p class="text-gray-300 mb-6">F. B. (natürliche Person)<br>
+        E-Mail: <a href="mailto:laminalabsofficial@gmail.com" class="text-emerald-400 hover:underline">laminalabsofficial@gmail.com</a></p>
+      </section>
 
-      <h2>Haftungsausschluss</h2>
-      <p>Die Inhalte dieser Seite wurden mit größter Sorgfalt erstellt. Für die Richtigkeit, Vollständigkeit und Aktualität übernehmen wir keine Gewähr. Für Inhalte externer Links übernehmen wir keine Haftung.</p>
-      <p>Die Inhalte dieser Website stellen keine rechtliche Beratung dar. Für rechtliche Fragen wende dich bitte an einen qualifizierten Fachmann.</p>
+      <section>
+        <h2 class="text-2xl font-semibold text-emerald-400 mb-4">Haftungsausschluss</h2>
+        <p class="text-gray-300 mb-6">Die Inhalte dieser Seite wurden mit größter Sorgfalt erstellt. Für die Richtigkeit, Vollständigkeit und Aktualität übernehmen wir keine Gewähr. Für Inhalte externer Links übernehmen wir keine Haftung.</p>
+        <p class="text-gray-300 mb-6">Die Inhalte dieser Website stellen keine rechtliche Beratung dar. Für rechtliche Fragen wende dich bitte an einen qualifizierten Fachmann.</p>
+      </section>
 
-      <h2>Hosting</h2>
-      <p>Diese Website wird bei Netlify gehostet. Server-Logs können gemäß der <a href="https://www.netlify.com/privacy/" target="_blank" rel="noopener noreferrer">Datenschutzrichtlinie von Netlify</a> aufgezeichnet werden.</p>
+      <section>
+        <h2 class="text-2xl font-semibold text-emerald-400 mb-4">Hosting</h2>
+        <p class="text-gray-300 mb-6">Diese Website wird bei Netlify gehostet. Server-Logs können gemäß der <a href="https://www.netlify.com/privacy/" target="_blank" rel="noopener noreferrer" class="text-emerald-400 hover:underline">Datenschutzrichtlinie von Netlify</a> aufgezeichnet werden.</p>
+      </section>
 
-      <h2>Urheberrecht</h2>
-      <p>Alle Inhalte, einschließlich Texte, Bilder und Logos, sind Eigentum von Lamina Labs, sofern nicht anders angegeben. Eine unbefugte Nutzung oder Vervielfältigung ist untersagt.</p>
+      <section>
+        <h2 class="text-2xl font-semibold text-emerald-400 mb-4">Urheberrecht</h2>
+        <p class="text-gray-300 mb-6">Alle Inhalte, einschließlich Texte, Bilder und Logos, sind Eigentum von Lamina Labs, sofern nicht anders angegeben. Eine unbefugte Nutzung oder Vervielfältigung ist untersagt.</p>
+      </section>
     </div>
   </main>
 
-  <footer>
-    <div class="footer-links">
-      <a href="index.html">Home</a>
-      <a href="privacy.html">Privacy</a>
+  <footer class="text-center py-8 border-t border-gray-700">
+    <div class="footer-links mb-4">
+      <a href="index.html" class="text-emerald-400 mx-3">Home</a>
+      <a href="privacy.html" class="text-emerald-400 mx-3">Privacy</a>
     </div>
-    <p>© 2025 Lamina Labs. All rights reserved.</p>
+    <div class="social-links mb-4">
+      <a href="https://twitter.com/laminalabs" target="_blank" rel="noopener noreferrer" class="text-emerald-400 mx-2" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+      <a href="https://github.com/laminalabs" target="_blank" rel="noopener noreferrer" class="text-emerald-400 mx-2" aria-label="GitHub"><i class="fab fa-github"></i></a>
+    </div>
+    <p class="text-gray-500">© 2025 Lamina Labs. All rights reserved.</p>
   </footer>
 
   <script>
     function setLang(lang) {
       document.body.className = lang;
+      document.querySelectorAll('.lang-en, .lang-de').forEach(el => el.classList.add('hidden'));
+      document.querySelector(`.lang-${lang}`).classList.remove('hidden');
     }
+
+    // Initialize language based on user preference or default
+    document.addEventListener('DOMContentLoaded', () => {
+      const preferredLang = localStorage.getItem('lang') || 'en';
+      setLang(preferredLang);
+    });
+
+    // Save language preference
+    document.querySelectorAll('.lang-switch a').forEach(link => {
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+        const lang = e.target.textContent.toLowerCase();
+        localStorage.setItem('lang', lang);
+        setLang(lang);
+      });
+    });
   </script>
 </body>
 </html>
+
