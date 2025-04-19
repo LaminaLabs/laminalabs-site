@@ -22,18 +22,55 @@
       background-size: 400% 400%;
       animation: gradient 15s ease infinite;
       font-family: 'Inter', system-ui, sans-serif;
-      color: #e5e7eb;
+      color: #e5e7eb !important;
       scroll-behavior: smooth;
+      overflow-x: hidden;
+    }
+
+    #particle-bg {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1 !important;
     }
 
     .main-container {
-      opacity: 0;
-      transform: translateY(20px);
-      animation: fadeInUp 0.6s ease-out forwards;
+      opacity: 1;
+      transform: translateY(0);
+      z-index: 1;
     }
 
-    @keyframes fadeInUp {
-      to { opacity: 1; transform: translateY(0); }
+    .card {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(167, 243, 208, 0.3);
+      backdrop-filter: blur(12px);
+      transition: transform 0.3s ease, box-shadow 0.3s ease, backdrop-filter 0.3s ease;
+      position: relative;
+      overflow: hidden;
+      z-index: 1;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+      backdrop-filter: blur(20px);
+    }
+
+    .card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(16, 185, 129, 0.2), transparent);
+      transition: 0.5s;
+    }
+
+    .card:hover::before {
+      left: 100%;
     }
 
     .lang-switch a {
@@ -45,18 +82,6 @@
       transform: scale(1.1);
     }
 
-    .card {
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid rgba(167, 243, 208, 0.3);
-      backdrop-filter: blur(12px);
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
-
-    .card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-    }
-
     footer a {
       transition: color 0.3s ease, transform 0.3s ease;
     }
@@ -65,18 +90,88 @@
       color: #10b981;
       transform: scale(1.05);
     }
+
+    .custom-cursor {
+      position: fixed;
+      width: 20px;
+      height: 20px;
+      border: 2px solid #10b981;
+      border-radius: 50%;
+      pointer-events: none;
+      transform: translate(-50%, -50%);
+      transition: transform 0.1s ease, background-color 0.3s ease;
+      z-index: 1000;
+    }
+
+    .custom-cursor.hovered {
+      transform: translate(-50%, -50%) scale(1.5);
+      background-color: rgba(16, 185, 129, 0.2);
+    }
+
+    .glitch {
+      position: relative;
+    }
+
+    .glitch::before,
+    .glitch::after {
+      content: attr(data-text);
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+    }
+
+    .glitch::before {
+      color: #ff00ff;
+      animation: glitch-anim-1 2s infinite linear alternate-reverse;
+    }
+
+    .glitch::after {
+      color: #00ffff;
+      animation: glitch-anim-2 3s infinite linear alternate-reverse;
+    }
+
+    @keyframes glitch-anim-1 {
+      0% { transform: translate(0); }
+      50% { transform: translate(-2px, 2px); }
+      100% { transform: translate(2px, -2px); }
+    }
+
+    @keyframes glitch-anim-2 {
+      0% { transform: translate(0); }
+      50% { transform: translate(2px, -2px); }
+      100% { transform: translate(-2px, 2px); }
+    }
+
+    .low-motion .card,
+    .low-motion .main-container,
+    .low-motion .card::before {
+      animation: none !important;
+      transition: none !important;
+    }
+
+    h1, h2, h3, p, a, li {
+      color: #e5e7eb !important;
+      z-index: 1;
+      position: relative;
+    }
   </style>
 </head>
 <body class="en">
+  <div id="particle-bg"></div>
+  <div class="custom-cursor"></div>
   <div class="lang-switch fixed top-6 right-6 z-50">
     <a href="#" onclick="setLang('en')" class="text-emerald-400 font-semibold mx-2" aria-label="Switch to English">EN</a>
     <span class="text-gray-400">|</span>
     <a href="#" onclick="setLang('de')" class="text-emerald-400 font-semibold mx-2" aria-label="Switch to German">DE</a>
+    <span class="text-gray-400">|</span>
+    <a href="#" onclick="toggleLowMotion()" class="text-emerald-400 font-semibold mx-2" aria-label="Toggle Low Motion">Low Motion</a>
   </div>
 
   <header class="text-center pt-16 pb-8">
     <img src="assets/logo.png" alt="Lamina Labs Logo" class="w-20 mx-auto mb-4 filter drop-shadow-lg" />
-    <h1 class="text-4xl font-bold text-emerald-400 drop-shadow-md">Impressum</h1>
+    <h1 class="text-4xl font-bold text-emerald-400 drop-shadow-md glitch" data-text="Impressum">Impressum</h1>
   </header>
 
   <main class="main-container max-w-3xl mx-auto px-6 py-8 card rounded-2xl">
@@ -86,24 +181,24 @@
       </section>
 
       <section>
-        <h2 class="text-2xl font-semibold text-emerald-400 mb-4">Responsible for Content</h2>
+        <h2 class="text-2xl font-semibold text-emerald-400 mb-4 glitch" data-text="Responsible for Content">Responsible for Content</h2>
         <p class="text-gray-300 mb-6">F. B. (natural person)<br>
         Email: <a href="mailto:laminalabsofficial@gmail.com" class="text-emerald-400 hover:underline">laminalabsofficial@gmail.com</a></p>
       </section>
 
       <section>
-        <h2 class="text-2xl font-semibold text-emerald-400 mb-4">Disclaimer</h2>
+        <h2 class="text-2xl font-semibold text-emerald-400 mb-4 glitch" data-text="Disclaimer">Disclaimer</h2>
         <p class="text-gray-300 mb-6">All content has been created with care. However, we do not guarantee accuracy, completeness, or timeliness. We are not responsible for external links.</p>
         <p class="text-gray-300 mb-6">The content on this website does not constitute legal advice. For legal inquiries, please consult a qualified professional.</p>
       </section>
 
       <section>
-        <h2 class="text-2xl font-semibold text-emerald-400 mb-4">Hosting</h2>
+        <h2 class="text-2xl font-semibold text-emerald-400 mb-4 glitch" data-text="Hosting">Hosting</h2>
         <p class="text-gray-300 mb-6">This website is hosted on Netlify. Server logs may be recorded by Netlify in accordance with their <a href="https://www.netlify.com/privacy/" target="_blank" rel="noopener noreferrer" class="text-emerald-400 hover:underline">privacy policy</a>.</p>
       </section>
 
       <section>
-        <h2 class="text-2xl font-semibold text-emerald-400 mb-4">Copyright</h2>
+        <h2 class="text-2xl font-semibold text-emerald-400 mb-4 glitch" data-text="Copyright">Copyright</h2>
         <p class="text-gray-300 mb-6">All content, including text, images, and logos, is the property of Lamina Labs unless otherwise stated. Unauthorized use or reproduction is prohibited.</p>
       </section>
     </div>
@@ -114,24 +209,24 @@
       </section>
 
       <section>
-        <h2 class="text-2xl font-semibold text-emerald-400 mb-4">Verantwortlich für den Inhalt</h2>
+        <h2 class="text-2xl font-semibold text-emerald-400 mb-4 glitch" data-text="Verantwortlich für den Inhalt">Verantwortlich für den Inhalt</h2>
         <p class="text-gray-300 mb-6">F. B. (natürliche Person)<br>
         E-Mail: <a href="mailto:laminalabsofficial@gmail.com" class="text-emerald-400 hover:underline">laminalabsofficial@gmail.com</a></p>
       </section>
 
       <section>
-        <h2 class="text-2xl font-semibold text-emerald-400 mb-4">Haftungsausschluss</h2>
+        <h2 class="text-2xl font-semibold text-emerald-400 mb-4 glitch" data-text="Haftungsausschluss">Haftungsausschluss</h2>
         <p class="text-gray-300 mb-6">Die Inhalte dieser Seite wurden mit größter Sorgfalt erstellt. Für die Richtigkeit, Vollständigkeit und Aktualität übernehmen wir keine Gewähr. Für Inhalte externer Links übernehmen wir keine Haftung.</p>
         <p class="text-gray-300 mb-6">Die Inhalte dieser Website stellen keine rechtliche Beratung dar. Für rechtliche Fragen wende dich bitte an einen qualifizierten Fachmann.</p>
       </section>
 
       <section>
-        <h2 class="text-2xl font-semibold text-emerald-400 mb-4">Hosting</h2>
+        <h2 class="text-2xl font-semibold text-emerald-400 mb-4 glitch" data-text="Hosting">Hosting</h2>
         <p class="text-gray-300 mb-6">Diese Website wird bei Netlify gehostet. Server-Logs können gemäß der <a href="https://www.netlify.com/privacy/" target="_blank" rel="noopener noreferrer" class="text-emerald-400 hover:underline">Datenschutzrichtlinie von Netlify</a> aufgezeichnet werden.</p>
       </section>
 
       <section>
-        <h2 class="text-2xl font-semibold text-emerald-400 mb-4">Urheberrecht</h2>
+        <h2 class="text-2xl font-semibold text-emerald-400 mb-4 glitch" data-text="Urheberrecht">Urheberrecht</h2>
         <p class="text-gray-300 mb-6">Alle Inhalte, einschließlich Texte, Bilder und Logos, sind Eigentum von Lamina Labs, sofern nicht anders angegeben. Eine unbefugte Nutzung oder Vervielfältigung ist untersagt.</p>
       </section>
     </div>
@@ -149,21 +244,44 @@
     <p class="text-gray-500">© 2025 Lamina Labs. All rights reserved.</p>
   </footer>
 
-  <script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+  <script type="module">
+    import { initParticles } from './js/particles.js';
+
+    // Initialize particles
+    initParticles();
+
+    // GSAP Animations (nur wenn GSAP geladen ist)
+    if (typeof gsap !== 'undefined') {
+      gsap.from('.main-container', { opacity: 0, y: 50, duration: 1, ease: 'power3.out' });
+      gsap.from('.card', { opacity: 0, scale: 0.8, stagger: 0.2, duration: 0.8, ease: 'elastic.out(1, 0.5)' });
+    }
+
+    // Custom Cursor
+    const cursor = document.querySelector('.custom-cursor');
+    document.addEventListener('mousemove', (e) => {
+      cursor.style.left = `${e.clientX}px`;
+      cursor.style.top = `${e.clientY}px`;
+    });
+
+    document.querySelectorAll('a, button').forEach(el => {
+      el.addEventListener('mouseenter', () => cursor.classList.add('hovered'));
+      el.addEventListener('mouseleave', () => cursor.classList.remove('hovered'));
+    });
+
+    // Language Switch
     function setLang(lang) {
       document.body.className = lang;
       document.querySelectorAll('.lang-en, .lang-de').forEach(el => el.classList.add('hidden'));
       document.querySelector(`.lang-${lang}`).classList.remove('hidden');
     }
 
-    // Initialize language based on user preference or default
     document.addEventListener('DOMContentLoaded', () => {
       const preferredLang = localStorage.getItem('lang') || 'en';
       setLang(preferredLang);
     });
 
-    // Save language preference
-    document.querySelectorAll('.lang-switch a').forEach(link => {
+    document.querySelectorAll('.lang-switch a:not([onclick*="toggleLowMotion"])').forEach(link => {
       link.addEventListener('click', (e) => {
         e.preventDefault();
         const lang = e.target.textContent.toLowerCase();
@@ -171,7 +289,28 @@
         setLang(lang);
       });
     });
+
+    // Low Motion Toggle
+    function toggleLowMotion() {
+      document.body.classList.toggle('low-motion');
+      localStorage.setItem('lowMotion', document.body.classList.contains('low-motion'));
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      if (localStorage.getItem('lowMotion') === 'true') {
+        document.body.classList.add('low-motion');
+      }
+    });
+
+    // Easter Egg: Logo 5x klicken
+    let logoClicks = 0;
+    document.querySelector('header img').addEventListener('click', () => {
+      logoClicks++;
+      if (logoClicks === 5 && typeof gsap !== 'undefined') {
+        gsap.to('header img', { rotation: 360, duration: 1, ease: 'bounce' });
+        logoClicks = 0;
+      }
+    });
   </script>
 </body>
 </html>
-

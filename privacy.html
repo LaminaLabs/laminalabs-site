@@ -22,18 +22,55 @@
       background-size: 400% 400%;
       animation: gradient 15s ease infinite;
       font-family: 'Inter', system-ui, sans-serif;
-      color: #e5e7eb;
+      color: #e5e7eb !important; /* Erzwingt Textfarbe */
       scroll-behavior: smooth;
+      overflow-x: hidden;
+    }
+
+    #particle-bg {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1 !important; /* Hintergrund bleibt hinten */
     }
 
     .main-container {
-      opacity: 0;
-      transform: translateY(20px);
-      animation: fadeInUp 0.6s ease-out forwards;
+      opacity: 1; /* Standardmäßig sichtbar */
+      transform: translateY(0);
+      z-index: 1; /* Sicherstellen, dass Inhalt vor Partikeln ist */
     }
 
-    @keyframes fadeInUp {
-      to { opacity: 1; transform: translateY(0); }
+    .card {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(167, 243, 208, 0.3);
+      backdrop-filter: blur(12px);
+      transition: transform 0.3s ease, box-shadow 0.3s ease, backdrop-filter 0.3s ease;
+      position: relative;
+      overflow: hidden;
+      z-index: 1;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+      backdrop-filter: blur(20px);
+    }
+
+    .card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(16, 185, 129, 0.2), transparent);
+      transition: 0.5s;
+    }
+
+    .card:hover::before {
+      left: 100%;
     }
 
     .lang-switch a {
@@ -45,18 +82,6 @@
       transform: scale(1.1);
     }
 
-    .card {
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid rgba(167, 243, 208, 0.3);
-      backdrop-filter: blur(12px);
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
-
-    .card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-    }
-
     footer a {
       transition: color 0.3s ease, transform 0.3s ease;
     }
@@ -65,164 +90,235 @@
       color: #10b981;
       transform: scale(1.05);
     }
+
+    .custom-cursor {
+      position: fixed;
+      width: 20px;
+      height: 20px;
+      border: 2px solid #10b981;
+      border-radius: 50%;
+      pointer-events: none;
+      transform: translate(-50%, -50%);
+      transition: transform 0.1s ease, background-color 0.3s ease;
+      z-index: 1000;
+    }
+
+    .custom-cursor.hovered {
+      transform: translate(-50%, -50%) scale(1.5);
+      background-color: rgba(16, 185, 129, 0.2);
+    }
+
+    .glitch {
+      position: relative;
+    }
+
+    .glitch::before,
+    .glitch::after {
+      content: attr(data-text);
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+    }
+
+    .glitch::before {
+      color: #ff00ff;
+      animation: glitch-anim-1 2s infinite linear alternate-reverse;
+    }
+
+    .glitch::after {
+      color: #00ffff;
+      animation: glitch-anim-2 3s infinite linear alternate-reverse;
+    }
+
+    @keyframes glitch-anim-1 {
+      0% { transform: translate(0); }
+      50% { transform: translate(-2px, 2px); }
+      100% { transform: translate(2px, -2px); }
+    }
+
+    @keyframes glitch-anim-2 {
+      0% { transform: translate(0); }
+      50% { transform: translate(2px, -2px); }
+      100% { transform: translate(-2px, 2px); }
+    }
+
+    .low-motion .card,
+    .low-motion .main-container,
+    .low-motion .card::before {
+      animation: none !important;
+      transition: none !important;
+    }
+
+    /* Sicherstellen, dass Text sichtbar ist */
+    h1, h2, h3, p, a, li {
+      color: #e5e7eb !important;
+      z-index: 1;
+      position: relative;
+    }
   </style>
 </head>
 <body class="en">
+  <div id="particle-bg"></div>
+  <div class="custom-cursor"></div>
   <div class="lang-switch fixed top-6 right-6 z-50">
     <a href="#" onclick="setLang('en')" class="text-emerald-400 font-semibold mx-2" aria-label="Switch to English">EN</a>
     <span class="text-gray-400">|</span>
     <a href="#" onclick="setLang('de')" class="text-emerald-400 font-semibold mx-2" aria-label="Switch to German">DE</a>
+    <span class="text-gray-400">|</span>
+    <a href="#" onclick="toggleLowMotion()" class="text-emerald-400 font-semibold mx-2" aria-label="Toggle Low Motion">Low Motion</a>
   </div>
 
   <header class="text-center pt-16 pb-8">
     <img src="assets/logo.png" alt="Lamina Labs Logo" class="w-20 mx-auto mb-4 filter drop-shadow-lg" />
-    <h1 class="text-4xl font-bold text-emerald-400 drop-shadow-md">Privacy Policy</h1>
+    <h1 class="text-4xl font-bold text-emerald-400 drop-shadow-md glitch" data-text="Privacy Policy">Privacy Policy</h1>
   </header>
 
   <main class="main-container max-w-3xl mx-auto px-6 py-8 card rounded-2xl">
     <div class="lang-en">
       <section>
         <p class="text-gray-300 mb-6"><strong>Last Updated:</strong> April 12, 2025</p>
-        <p class="text-gray-300 mb-6">Lamina Labs is committed to protecting your privacy. This Privacy Policy explains how we handle your data when you use our mobile app <strong>OfflineGPT</strong> and our website at <strong>laminalabs.app</strong>. If you have any questions, feel free to reach out to us at <a href="mailto:info@laminalabs.app" class="text-emerald-400 hover:underline">laminalabsofficial@gmail.com</a>.</p>
+        <p class="text-gray-300 mb-6">Lamina Labs is committed to protecting your privacy. This Privacy Policy explains how we handle your data when you use our mobile app <strong>OfflineGPT</strong> and our website at <strong>laminalabs.app</strong>. If you have any questions, feel free to reach out to us at <a href="mailto:laminalabsofficial@gmail.com" class="text-emerald-400 hover:underline">laminalabsofficial@gmail.com</a>
       </section>
 
       <section>
-        <h2 class="text-2xl font-semibold text-emerald-400 mb-4">1. Responsible Party</h2>
+        <h2 class="text-2xl font-semibold text-emerald-400 mb-4 glitch" data-text="Responsible Party">Responsible Party</h2>
         <p class="text-gray-300 mb-6"><strong>Lamina Labs</strong><br>
         Responsible Person: F. B. (natural person)<br>
-        Contact: <a href="mailto:laminalabsofficial@gmail.com" class="text-emerald-400 hover:underline">laminalabsofficial@gmail.com</a></p>
+        Contact: <a href="mailto:laminalabsofficial@gmail.com" class="text-emerald-400 hover:underline">laminalabsofficial@gmail.com</a>
       </section>
 
       <section>
-        <h2 class="text-2xl font-semibold text-emerald-400 mb-4">2. Data We Collect</h2>
-        <h3 class="text-xl font-medium text-emerald-400 mb-3">2.1 OfflineGPT App</h3>
+        <h2 class="text-2xl font-semibold text-emerald-400 mb-4 glitch" data-text="Data We Collect">Data We Collect</h2>
+        <h3 class="text-xl font-medium text-emerald-400 mb-3">OfflineGPT App</h3>
         <p class="text-gray-300 mb-6">- <strong>No Personal Data:</strong> OfflineGPT operates entirely offline. We do <strong>not</strong> collect, store, or process any personal data such as your name, email, or location.<br>
         - <strong>Chat Data:</strong> All chat history and conversations are stored locally on your device and are <strong>not</strong> transmitted to any server or cloud.<br>
         - <strong>Speech Input:</strong> If you use the speech-to-text feature, your voice input is processed by your device's system (e.g., Google Speech Recognition on Android). We do <strong>not</strong> access, record, or store any audio data.<br>
         - <strong>Model Files:</strong> OfflineGPT downloads model files on first launch. These files are stored locally on your device and are <strong>not</strong> shared with us or any third party.</p>
 
-        <h3 class="text-xl font-medium text-emerald-400 mb-3">2.2 Website (laminalabs.app)</h3>
+        <h3 class="text-xl font-medium text-emerald-400 mb-3">Website (laminalabs.app)</h3>
         <p class="text-gray-300 mb-6">- <strong>No Tracking:</strong> We do <strong>not</strong> use analytics, cookies, or tracking technologies on our website.<br>
         - <strong>Server Logs:</strong> Our hosting provider, Netlify, may log basic access data (e.g., IP address, timestamp) as part of their standard operations. This data is <strong>not</strong> accessed or processed by us. See <a href="https://www.netlify.com/privacy/" target="_blank" rel="noopener noreferrer" class="text-emerald-400 hover:underline">Netlify's Privacy Policy</a> for details.</p>
       </section>
 
       <section>
-        <h2 class="text-2xl font-semibold text-emerald-400 mb-4">3. In-App Purchases</h2>
+        <h2 class="text-2xl font-semibold text-emerald-400 mb-4 glitch" data-text="In-App Purchases">In-App Purchases</h2>
         <p class="text-gray-300 mb-6">- <strong>Google Play Billing:</strong> OfflineGPT offers in-app purchases (e.g., Pro Version) via Google Play Billing. All payment data is handled directly by Google Play. We do <strong>not</strong> collect, store, or process any payment information.<br>
         - <strong>Purchase Data:</strong> We only receive anonymized confirmation of successful purchases to unlock features in the app.</p>
       </section>
 
       <section>
-        <h2 class="text-2xl font-semibold text-emerald-400 mb-4">4. Internet Usage</h2>
+        <h2 class="text-2xl font-semibold text-emerald-400 mb-4 glitch" data-text="Internet Usage">Internet Usage</h2>
         <p class="text-gray-300 mb-6">- <strong>Offline Operation:</strong> After the initial download of model files, OfflineGPT operates fully offline. No internet connection is required for core functionality.<br>
         - <strong>Website:</strong> Visiting laminalabs.app may involve data transfers to Netlify for hosting purposes, as mentioned in Section 2.2.</p>
       </section>
 
       <section>
-        <h2 class="text-2xl font-semibold text-emerald-400 mb-4">5. Third-Party Services</h2>
+        <h2 class="text-2xl font-semibold text-emerald-400 mb-4 glitch" data-text="Third-Party Services">Third-Party Services</h2>
         <p class="text-gray-300 mb-6">- <strong>Google Play Services:</strong> Used for in-app purchases and speech-to-text (optional). See <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer" class="text-emerald-400 hover:underline">Google's Privacy Policy</a> for details.<br>
         - <strong>Netlify:</strong> Hosting provider for laminalabs.app. See <a href="https://www.netlify.com/privacy/" target="_blank" rel="noopener noreferrer" class="text-emerald-400 hover:underline">Netlify's Privacy Policy</a> for details.</p>
       </section>
 
       <section>
-        <h2 class="text-2xl font-semibold text-emerald-400 mb-4">6. Your Rights</h2>
+        <h2 class="text-2xl font-semibold text-emerald-400 mb-4 glitch" data-text="Your Rights">Your Rights</h2>
         <p class="text-gray-300 mb-6">Since OfflineGPT does not collect or process personal data, traditional data subject rights (e.g., access, deletion) do not apply. However:<br>
         - <strong>Local Data Control:</strong> You can delete all app data (e.g., chat history, model files) at any time by uninstalling the app or clearing app data via your device settings.<br>
-        - <strong>Contact Us:</strong> If you have concerns, you can reach us at <a href="mailto:laminalabsofficial@gmail.com" class="text-emerald-400 hover:underline">laminalabsofficial@gmail.com</a>. We typically respond within 2 business days.</p>
+        - <strong>Contact Us:</strong> If you have concerns, you can reach us at <a href="mailto:laminalabsofficial@gmail.com" class="text-emerald-400 hover:underline">laminalabsofficial@gmail.com</a>
       </section>
 
       <section>
-        <h2 class="text-2xl font-semibold text-emerald-400 mb-4">7. Data Security</h2>
+        <h2 class="text-2xl font-semibold text-emerald-400 mb-4 glitch" data-text="Data Security">Data Security</h2>
         <p class="text-gray-300 mb-6">- All data processed by OfflineGPT remains on your device.<br>
         - We do not have access to your data, and there is no cloud storage or server transmission involved.</p>
       </section>
 
       <section>
-        <h2 class="text-2xl font-semibold text-emerald-400 mb-4">8. Children's Privacy</h2>
+        <h2 class="text-2xl font-semibold text-emerald-400 mb-4 glitch" data-text="Children's Privacy">Children's Privacy</h2>
         <p class="text-gray-300 mb-6">OfflineGPT is not intended for children under 13. We do not knowingly collect data from children.</p>
       </section>
 
       <section>
-        <h2 class="text-2xl font-semibold text-emerald-400 mb-4">9. Changes to This Policy</h2>
+        <h2 class="text-2xl font-semibold text-emerald-400 mb-4 glitch" data-text="Changes to This Policy">Changes to This Policy</h2>
         <p class="text-gray-300 mb-6">We may update this Privacy Policy from time to time. The latest version will always be available at <a href="https://laminalabs.app/privacy.html" class="text-emerald-400 hover:underline">laminalabs.app/privacy.html</a>. Significant changes will be communicated via the app or website.</p>
       </section>
 
       <section>
-        <h2 class="text-2xl font-semibold text-emerald-400 mb-4">10. Contact Us</h2>
-        <p class="text-gray-300 mb-6">For questions or concerns about this Privacy Policy, please contact us at <a href="mailto:laminalabsofficial@gmail.com" class="text-emerald-400 hover:underline">laminalabsofficial@gmail.com</a>.</p>
+        <h2 class="text-2xl font-semibold text-emerald-400 mb-4 glitch" data-text="Contact Us">Contact Us</h2>
+        <p class="text-gray-300 mb-6">For questions or concerns about this Privacy Policy, please contact us at <a href="mailto:laminalabsofficial@gmail.com" class="text-emerald-400 hover:underline">laminalabsofficial@gmail.com</a>
       </section>
     </div>
 
     <div class="lang-de hidden">
       <section>
         <p class="text-gray-300 mb-6"><strong>Zuletzt aktualisiert:</strong> 12. April 2025</p>
-        <p class="text-gray-300 mb-6">Lamina Labs verpflichtet sich, deine Privatsphäre zu schützen. Diese Datenschutzerklärung erklärt, wie wir deine Daten behandeln, wenn du unsere mobile App <strong>OfflineGPT</strong> und unsere Website unter <strong>laminalabs.app</strong> nutzt. Bei Fragen kontaktiere uns gern unter <a href="mailto:laminalabsofficial@gmail.com" class="text-emerald-400 hover:underline">laminalabsofficial@gmail.com</a>.</p>
+        <p class="text-gray-300 mb-6">Lamina Labs verpflichtet sich, deine Privatsphäre zu schützen. Diese Datenschutzerklärung erklärt, wie wir deine Daten behandeln, wenn du unsere mobile App <strong>OfflineGPT</strong> und unsere Website unter <strong>laminalabs.app</strong> nutzt. Bei Fragen kontaktiere uns gern unter <a href="mailto:laminalabsofficial@gmail.com" class="text-emerald-400 hover:underline">laminalabsofficial@gmail.com</a>
       </section>
 
       <section>
-        <h2 class="text-2xl font-semibold text-emerald-400 mb-4">1. Verantwortliche Stelle</h2>
+        <h2 class="text-2xl font-semibold text-emerald-400 mb-4 glitch" data-text="Verantwortliche Stelle">Verantwortliche Stelle</h2>
         <p class="text-gray-300 mb-6"><strong>Lamina Labs</strong><br>
         Verantwortliche Person: F. B. (natürliche Person)<br>
-        Kontakt: <a href="mailto:laminalabsofficial@gmail.com" class="text-emerald-400 hover:underline">laminalabsofficial@gmail.com</a></p>
+        Kontakt: <a href="mailto:laminalabsofficial@gmail.com" class="text-emerald-400 hover:underline">laminalabsofficial@gmail.com</a>
       </section>
 
       <section>
-        <h2 class="text-2xl font-semibold text-emerald-400 mb-4">2. Erhobene Daten</h2>
-        <h3 class="text-xl font-medium text-emerald-400 mb-3">2.1 OfflineGPT App</h3>
+        <h2 class="text-2xl font-semibold text-emerald-400 mb-4 glitch" data-text="Erhobene Daten">Erhobene Daten</h2>
+        <h3 class="text-xl font-medium text-emerald-400 mb-3">OfflineGPT App</h3>
         <p class="text-gray-300 mb-6">- <strong>Keine personenbezogenen Daten:</strong> OfflineGPT funktioniert vollständig offline. Wir erheben, speichern oder verarbeiten <strong>keine</strong> personenbezogenen Daten wie Name, E-Mail oder Standort.<br>
         - <strong>Chat-Daten:</strong> Der gesamte Chatverlauf und die Konversationen werden lokal auf deinem Gerät gespeichert und <strong>nicht</strong> an Server oder Clouds übertragen.<br>
         - <strong>Spracheingabe:</strong> Wenn du die Sprache-zu-Text-Funktion nutzt, wird deine Stimmeingabe vom System deines Geräts verarbeitet (z. B. Google Spracherkennung auf Android). Wir haben <strong>keinen</strong> Zugriff auf Audiodaten und speichern diese nicht.<br>
         - <strong>Modell-Dateien:</strong> OfflineGPT lädt Modell-Dateien beim ersten Start herunter. Diese Dateien werden lokal auf deinem Gerät gespeichert und <strong>nicht</strong> mit uns oder Dritten geteilt.</p>
 
-        <h3 class="text-xl font-medium text-emerald-400 mb-3">2.2 Website (laminalabs.app)</h3>
+        <h3 class="text-xl font-medium text-emerald-400 mb-3">Website (laminalabs.app)</h3>
         <p class="text-gray-300 mb-6">- <strong>Kein Tracking:</strong> Wir verwenden auf unserer Website <strong>keine</strong> Analysen, Cookies oder Tracking-Technologien.<br>
         - <strong>Server-Logs:</strong> Unser Hosting-Anbieter Netlify kann grundlegende Zugriffsdaten (z. B. IP-Adresse, Zeitstempel) im Rahmen seiner Standardprozesse protokollieren. Diese Daten werden von uns <strong>nicht</strong> eingesehen oder verarbeitet. Siehe <a href="https://www.netlify.com/privacy/" target="_blank" rel="noopener noreferrer" class="text-emerald-400 hover:underline">Netlify Datenschutzerklärung</a> für Details.</p>
       </section>
 
       <section>
-        <h2 class="text-2xl font-semibold text-emerald-400 mb-4">3. In-App-Käufe</h2>
+        <h2 class="text-2xl font-semibold text-emerald-400 mb-4 glitch" data-text="In-App-Käufe">In-App-Käufe</h2>
         <p class="text-gray-300 mb-6">- <strong>Google Play Billing:</strong> OfflineGPT bietet In-App-Käufe (z. B. Pro-Version) über Google Play Billing an. Alle Zahlungsdaten werden direkt von Google Play verarbeitet. Wir erheben, speichern oder verarbeiten <strong>keine</strong> Zahlungsdaten.<br>
         - <strong>Kaufdaten:</strong> Wir erhalten nur anonymisierte Bestätigungen erfolgreicher Käufe, um Funktionen in der App freizuschalten.</p>
       </section>
 
       <section>
-        <h2 class="text-2xl font-semibold text-emerald-400 mb-4">4. Internetnutzung</h2>
+        <h2 class="text-2xl font-semibold text-emerald-400 mb-4 glitch" data-text="Internetnutzung">Internetnutzung</h2>
         <p class="text-gray-300 mb-6">- <strong>Offline-Betrieb:</strong> Nach dem ersten Download der Modell-Dateien funktioniert OfflineGPT komplett offline. Für die Kernfunktionen ist keine Internetverbindung erforderlich.<br>
         - <strong>Website:</strong> Der Besuch von laminalabs.app kann Datenübertragungen an Netlify für Hosting-Zwecke beinhalten, wie in Abschnitt 2.2 erwähnt.</p>
       </section>
 
       <section>
-        <h2 class="text-2xl font-semibold text-emerald-400 mb-4">5. Drittanbieter-Dienste</h2>
+        <h2 class="text-2xl font-semibold text-emerald-400 mb-4 glitch" data-text="Drittanbieter-Dienste">Drittanbieter-Dienste</h2>
         <p class="text-gray-300 mb-6">- <strong>Google Play Services:</strong> Verwendet für In-App-Käufe und Sprache-zu-Text (optional). Siehe <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer" class="text-emerald-400 hover:underline">Google Datenschutzerklärung</a> für Details.<br>
         - <strong>Netlify:</strong> Hosting-Anbieter für laminalabs.app. Siehe <a href="https://www.netlify.com/privacy/" target="_blank" rel="noopener noreferrer" class="text-emerald-400 hover:underline">Netlify Datenschutzerklärung</a> für Details.</p>
       </section>
 
       <section>
-        <h2 class="text-2xl font-semibold text-emerald-400 mb-4">6. Deine Rechte</h2>
+        <h2 class="text-2xl font-semibold text-emerald-400 mb-4 glitch" data-text="Deine Rechte">Deine Rechte</h2>
         <p class="text-gray-300 mb-6">Da OfflineGPT keine personenbezogenen Daten erhebt oder verarbeitet, greifen klassische Betroffenenrechte (z. B. Auskunft, Löschung) nicht. Dennoch:<br>
         - <strong>Kontrolle über lokale Daten:</strong> Du kannst alle App-Daten (z. B. Chatverlauf, Modelle) jederzeit löschen, indem du die App deinstallierst oder die App-Daten über die Geräteeinstellungen entfernst.<br>
-        - <strong>Kontakt:</strong> Bei Fragen kannst du uns unter <a href="mailto:laminalabsofficial@gmail.com" class="text-emerald-400 hover:underline">laminalabsofficial@gmail.com</a> erreichen. Wir antworten in der Regel innerhalb von 2 Werktagen.</p>
+        - <strong>Kontakt:</strong> Bei Fragen kannst du uns unter <a href="mailto:laminalabsofficial@gmail.com" class="text-emerald-400 hover:underline">laminalabsofficial@gmail.com</a></a> erreichen. Wir antworten in der Regel innerhalb von 2 Werktagen.</p>
       </section>
 
       <section>
-        <h2 class="text-2xl font-semibold text-emerald-400 mb-4">7. Datensicherheit</h2>
+        <h2 class="text-2xl font-semibold text-emerald-400 mb-4 glitch" data-text="Datensicherheit">Datensicherheit</h2>
         <p class="text-gray-300 mb-6">- Alle Daten, die von OfflineGPT verarbeitet werden, bleiben auf deinem Gerät.<br>
         - Wir haben keinen Zugriff auf deine Daten, und es gibt keine Cloud-Speicherung oder Serverübertragung.</p>
       </section>
 
       <section>
-        <h2 class="text-2xl font-semibold text-emerald-400 mb-4">8. Datenschutz für Kinder</h2>
+        <h2 class="text-2xl font-semibold text-emerald-400 mb-4 glitch" data-text="Datenschutz für Kinder">Datenschutz für Kinder</h2>
         <p class="text-gray-300 mb-6">OfflineGPT ist nicht für Kinder unter 13 Jahren gedacht. Wir erfassen wissentlich keine Daten von Kindern.</p>
       </section>
 
       <section>
-        <h2 class="text-2xl font-semibold text-emerald-400 mb-4">9. Änderungen dieser Richtlinie</h2>
+        <h2 class="text-2xl font-semibold text-emerald-400 mb-4 glitch" data-text="Änderungen dieser Richtlinie">Änderungen dieser Richtlinie</h2>
         <p class="text-gray-300 mb-6">Wir können diese Datenschutzerklärung von Zeit zu Zeit aktualisieren. Die neueste Version ist immer unter <a href="https://laminalabs.app/privacy.html" class="text-emerald-400 hover:underline">laminalabs.app/privacy.html</a> verfügbar. Wesentliche Änderungen werden über die App oder Website kommuniziert.</p>
       </section>
 
       <section>
-        <h2 class="text-2xl font-semibold text-emerald-400 mb-4">10. Kontakt</h2>
-        <p class="text-gray-300 mb-6">Bei Fragen oder Bedenken zur Datenschutzerklärung kontaktiere uns unter <a href="mailto:laminalabsofficial@gmail.com" class="text-emerald-400 hover:underline">laminalabsofficial@gmail.com</a>.</p>
+        <h2 class="text-2xl font-semibold text-emerald-400 mb-4 glitch" data-text="Kontakt">Kontakt</h2>
+        <p class="text-gray-300 mb-6">Bei Fragen oder Bedenken zur Datenschutzerklärung kontaktiere uns unter <a href="mailto:laminalabsofficial@gmail.com" class="text-emerald-400 hover:underline">laminalabsofficial@gmail.com</a>
       </section>
     </div>
   </main>
@@ -236,30 +332,75 @@
       <a href="https://twitter.com/laminalabs" target="_blank" rel="noopener noreferrer" class="text-emerald-400 mx-2" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
       <a href="https://github.com/laminalabs" target="_blank" rel="noopener noreferrer" class="text-emerald-400 mx-2" aria-label="GitHub"><i class="fab fa-github"></i></a>
     </div>
-    <p class="text-gray-500">© 2025 Lamina Labs. All rights reserved.</p>
+    <p class="text-gray-500">&copy; 2025 Lamina Labs. All rights reserved.</p>
   </footer>
 
-  <script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+  <script type="module">
+    import { initParticles } from './js/particles.js';
+
+    // Initialize particles
+    initParticles();
+
+    // GSAP Animations (nur wenn GSAP geladen ist)
+    if (typeof gsap !== 'undefined') {
+      gsap.from('.main-container', { opacity: 0, y: 50, duration: 1, ease: 'power3.out' });
+      gsap.from('.card', { opacity: 0, scale: 0.8, stagger: 0.2, duration: 0.8, ease: 'elastic.out(1, 0.5)' });
+    }
+
+    // Custom Cursor
+    const cursor = document.querySelector('.custom-cursor');
+    document.addEventListener('mousemove', (e) => {
+      cursor.style.left = `${e.clientX}px`;
+      cursor.style.top = `${e.clientY}px`;
+    });
+
+    document.querySelectorAll('a, button').forEach(el => {
+      el.addEventListener('mouseenter', () => cursor.classList.add('hovered'));
+      el.addEventListener('mouseleave', () => cursor.classList.remove('hovered'));
+    });
+
+    // Language Switch
     function setLang(lang) {
       document.body.className = lang;
       document.querySelectorAll('.lang-en, .lang-de').forEach(el => el.classList.add('hidden'));
       document.querySelector(`.lang-${lang}`).classList.remove('hidden');
     }
 
-    // Initialize language based on user preference or default
     document.addEventListener('DOMContentLoaded', () => {
       const preferredLang = localStorage.getItem('lang') || 'en';
       setLang(preferredLang);
     });
 
-    // Save language preference
-    document.querySelectorAll('.lang-switch a').forEach(link => {
+    document.querySelectorAll('.lang-switch a:not([onclick*="toggleLowMotion"])').forEach(link => {
       link.addEventListener('click', (e) => {
         e.preventDefault();
         const lang = e.target.textContent.toLowerCase();
         localStorage.setItem('lang', lang);
         setLang(lang);
       });
+    });
+
+    // Low Motion Toggle
+    function toggleLowMotion() {
+      document.body.classList.toggle('low-motion');
+      localStorage.setItem('lowMotion', document.body.classList.contains('low-motion'));
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      if (localStorage.getItem('lowMotion') === 'true') {
+        document.body.classList.add('low-motion');
+      }
+    });
+
+    // Easter Egg: Logo 5x klicken
+    let logoClicks = 0;
+    document.querySelector('header img').addEventListener('click', () => {
+      logoClicks++;
+      if (logoClicks === 5 && typeof gsap !== 'undefined') {
+        gsap.to('header img', { rotation: 360, duration: 1, ease: 'bounce' });
+        logoClicks = 0;
+      }
     });
   </script>
 </body>

@@ -22,39 +22,55 @@
       background-size: 400% 400%;
       animation: gradient 15s ease infinite;
       font-family: 'Inter', system-ui, sans-serif;
-      color: #e5e7eb;
+      color: #e5e7eb !important; /* Erzwingt Textfarbe */
       scroll-behavior: smooth;
+      overflow-x: hidden;
+    }
+
+    #particle-bg {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1 !important; /* Hintergrund bleibt hinten */
     }
 
     .main-container {
-      opacity: 0;
-      transform: translateY(20px);
-      animation: fadeInUp 0.6s ease-out forwards;
-    }
-
-    @keyframes fadeInUp {
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    .lang-switch a {
-      transition: color 0.3s ease, transform 0.3s ease;
-    }
-
-    .lang-switch a:hover {
-      color: #10b981;
-      transform: scale(1.1);
+      opacity: 1; /* Standardmäßig sichtbar */
+      transform: translateY(0);
+      z-index: 1; /* Sicherstellen, dass Inhalt vor Partikeln ist */
     }
 
     .card {
       background: rgba(255, 255, 255, 0.05);
       border: 1px solid rgba(167, 243, 208, 0.3);
       backdrop-filter: blur(12px);
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      transition: transform 0.3s ease, box-shadow 0.3s ease, backdrop-filter 0.3s ease;
+      position: relative;
+      overflow: hidden;
+      z-index: 1;
     }
 
     .card:hover {
       transform: translateY(-5px);
       box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+      backdrop-filter: blur(20px);
+    }
+
+    .card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(16, 185, 129, 0.2), transparent);
+      transition: 0.5s;
+    }
+
+    .card:hover::before {
+      left: 100%;
     }
 
     .list-item {
@@ -66,6 +82,35 @@
       transform: translateX(5px);
     }
 
+    .list-item:hover .project-preview {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .project-preview {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      width: 100%;
+      background: rgba(0, 0, 0, 0.8);
+      color: #10b981;
+      padding: 10px;
+      opacity: 0;
+      transform: translateY(10px);
+      transition: opacity 0.3s ease, transform 0.3s ease;
+      pointer-events: none;
+      z-index: 2;
+    }
+
+    .lang-switch a {
+      transition: color 0.3s ease, transform 0.3s ease;
+    }
+
+    .lang-switch a:hover {
+      color: #10b981;
+      transform: scale(1.1);
+    }
+
     footer a {
       transition: color 0.3s ease, transform 0.3s ease;
     }
@@ -74,29 +119,101 @@
       color: #10b981;
       transform: scale(1.05);
     }
+
+    .custom-cursor {
+      position: fixed;
+      width: 20px;
+      height: 20px;
+      border: 2px solid #10b981;
+      border-radius: 50%;
+      pointer-events: none;
+      transform: translate(-50%, -50%);
+      transition: transform 0.1s ease, background-color 0.3s ease;
+      z-index: 1000;
+    }
+
+    .custom-cursor.hovered {
+      transform: translate(-50%, -50%) scale(1.5);
+      background-color: rgba(16, 185, 129, 0.2);
+    }
+
+    .glitch {
+      position: relative;
+    }
+
+    .glitch::before,
+    .glitch::after {
+      content: attr(data-text);
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+    }
+
+    .glitch::before {
+      color: #ff00ff;
+      animation: glitch-anim-1 2s infinite linear alternate-reverse;
+    }
+
+    .glitch::after {
+      color: #00ffff;
+      animation: glitch-anim-2 3s infinite linear alternate-reverse;
+    }
+
+    @keyframes glitch-anim-1 {
+      0% { transform: translate(0); }
+      50% { transform: translate(-2px, 2px); }
+      100% { transform: translate(2px, -2px); }
+    }
+
+    @keyframes glitch-anim-2 {
+      0% { transform: translate(0); }
+      50% { transform: translate(2px, -2px); }
+      100% { transform: translate(-2px, 2px); }
+    }
+
+    .low-motion .card,
+    .low-motion .main-container,
+    .low-motion .list-item,
+    .low-motion .card::before {
+      animation: none !important;
+      transition: none !important;
+    }
+
+    /* Sicherstellen, dass Text sichtbar ist */
+    h1, h2, h3, p, a, li {
+      color: #e5e7eb !important;
+      z-index: 1;
+      position: relative;
+    }
   </style>
 </head>
 <body class="en">
+  <div id="particle-bg"></div>
+  <div class="custom-cursor"></div>
   <div class="lang-switch fixed top-6 right-6 z-50">
     <a href="#" onclick="setLang('en')" class="text-emerald-400 font-semibold mx-2" aria-label="Switch to English">EN</a>
     <span class="text-gray-400">|</span>
     <a href="#" onclick="setLang('de')" class="text-emerald-400 font-semibold mx-2" aria-label="Switch to German">DE</a>
+    <span class="text-gray-400">|</span>
+    <a href="#" onclick="toggleLowMotion()" class="text-emerald-400 font-semibold mx-2" aria-label="Toggle Low Motion">Low Motion</a>
   </div>
 
   <header class="text-center pt-16 pb-8">
     <img src="assets/logo.png" alt="Lamina Labs Logo" class="w-20 mx-auto mb-4 filter drop-shadow-lg" />
-    <h1 class="text-4xl font-bold text-emerald-400 drop-shadow-md">Lamina Labs</h1>
+    <h1 class="text-4xl font-bold text-emerald-400 drop-shadow-md glitch" data-text="Lamina Labs">Lamina Labs</h1>
   </header>
 
   <main class="main-container max-w-3xl mx-auto px-6 py-8 card rounded-2xl">
     <div class="lang-en">
       <section>
-        <h2 class="text-2xl font-semibold text-emerald-400 mb-4">What We Do</h2>
+        <h2 class="text-2xl font-semibold text-emerald-400 mb-4 glitch" data-text="What We Do">What We Do</h2>
         <p class="text-gray-300 mb-6">We design innovative tools, build experiments, and develop unconventional software—from private AI interfaces to indie game mechanics and local-first applications.</p>
       </section>
 
       <section>
-        <h2 class="text-2xl font-semibold text-emerald-400 mb-4">Focus Areas</h2>
+        <h2 class="text-2xl font-semibold text-emerald-400 mb-4 glitch" data-text="Focus Areas">Focus Areas</h2>
         <ul class="list-disc pl-6 text-gray-300">
           <li class="list-item mb-2"><i class="fas fa-mobile-alt mr-2"></i>Mobile AI Interfaces</li>
           <li class="list-item mb-2"><i class="fas fa-gamepad mr-2"></i>Experimental Games & Prototypes</li>
@@ -106,24 +223,24 @@
       </section>
 
       <section>
-        <h2 class="text-2xl font-semibold text-emerald-400 mb-4">Current Projects</h2>
+        <h2 class="text-2xl font-semibold text-emerald-400 mb-4 glitch" data-text="Current Projects">Current Projects</h2>
         <ul class="list-disc pl-6 text-gray-300">
-          <li class="list-item mb-2"><strong>OfflineGPT</strong> – Offline AI chat app with local LLM</li>
-          <li class="list-item mb-2"><strong>Prompt Playground</strong> – Creative assistant for writers & tinkerers</li>
-          <li class="list-item mb-2"><strong>Microverse</strong> – A tiny metaphysical game world</li>
-          <li class="list-item mb-2"><strong>APK Lab (coming soon)</strong> – Tools & tweaks for power users</li>
+          <li class="list-item mb-2 relative"><strong>OfflineGPT</strong> – Offline AI chat app with local LLM<div class="project-preview">AI-powered chat, fully offline!</div></li>
+          <li class="list-item mb-2 relative"><strong>Prompt Playground</strong> – Creative assistant for writers & tinkerers<div class="project-preview">Unleash your creativity!</div></li>
+          <li class="list-item mb-2 relative"><strong>Microverse</strong> – A tiny metaphysical game world<div class="project-preview">Explore a mini universe!</div></li>
+          <li class="list-item mb-2 relative"><strong>APK Lab (coming soon)</strong> – Tools & tweaks for power users<div class="project-preview">Power tools incoming!</div></li>
         </ul>
       </section>
     </div>
 
     <div class="lang-de hidden">
       <section>
-        <h2 class="text-2xl font-semibold text-emerald-400 mb-4">Was wir tun</h2>
+        <h2 class="text-2xl font-semibold text-emerald-400 mb-4 glitch" data-text="Was wir tun">Was wir tun</h2>
         <p class="text-gray-300 mb-6">Wir entwerfen innovative Tools, entwickeln Experimente und bauen unkonventionelle Software—von privater KI über Spielmechaniken bis zu lokalen Anwendungen.</p>
       </section>
 
       <section>
-        <h2 class="text-2xl font-semibold text-emerald-400 mb-4">Fokusbereiche</h2>
+        <h2 class="text-2xl font-semibold text-emerald-400 mb-4 glitch" data-text="Fokusbereiche">Fokusbereiche</h2>
         <ul class="list-disc pl-6 text-gray-300">
           <li class="list-item mb-2"><i class="fas fa-mobile-alt mr-2"></i>Mobile KI-Oberflächen</li>
           <li class="list-item mb-2"><i class="fas fa-gamepad mr-2"></i>Experimentelle Spiele & Prototypen</li>
@@ -133,12 +250,12 @@
       </section>
 
       <section>
-        <h2 class="text-2xl font-semibold text-emerald-400 mb-4">Aktuelle Projekte</h2>
+        <h2 class="text-2xl font-semibold text-emerald-400 mb-4 glitch" data-text="Aktuelle Projekte">Aktuelle Projekte</h2>
         <ul class="list-disc pl-6 text-gray-300">
-          <li class="list-item mb-2"><strong>OfflineGPT</strong> – Offline-Chat-KI mit lokalem Modell</li>
-          <li class="list-item mb-2"><strong>Prompt Playground</strong> – Kreativassistenz für Schreibende & Tüftler</li>
-          <li class="list-item mb-2"><strong>Microverse</strong> – Eine kleine metaphysische Spielwelt</li>
-          <li class="list-item mb-2"><strong>APK Lab (demnächst)</strong> – Tools & Tweaks für Power-User</li>
+          <li class="list-item mb-2 relative"><strong>OfflineGPT</strong> – Offline-Chat-KI mit lokalem Modell<div class="project-preview">KI-Chat, komplett offline!</div></li>
+          <li class="list-item mb-2 relative"><strong>Prompt Playground</strong> – Kreativassoziat für Schreibende & Tüftler<div class="project-preview">Entfessle deine Kreativität!</div></li>
+          <li class="list-item mb-2 relative"><strong>Microverse</strong> – Eine kleine metaphysische Spielwelt<div class="project-preview">Erkunde ein Mini-Universum!</div></li>
+          <li class="list-item mb-2 relative"><strong>APK Lab (demnächst)</strong> – Tools & Tweaks für Power-User<div class="project-preview">Power-Tools kommen bald!</div></li>
         </ul>
       </section>
     </div>
@@ -156,21 +273,45 @@
     <p class="text-gray-500">&copy; 2025 Lamina Labs. All rights reserved.</p>
   </footer>
 
-  <script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+  <script type="module">
+    import { initParticles } from './js/particles.js';
+
+    // Initialize particles
+    initParticles();
+
+    // GSAP Animations (nur wenn GSAP geladen ist)
+    if (typeof gsap !== 'undefined') {
+      gsap.from('.main-container', { opacity: 0, y: 50, duration: 1, ease: 'power3.out' });
+      gsap.from('.card', { opacity: 0, scale: 0.8, stagger: 0.2, duration: 0.8, ease: 'elastic.out(1, 0.5)' });
+      gsap.from('.list-item', { opacity: 0, x: -20, stagger: 0.1, duration: 0.5, ease: 'power2.out' });
+    }
+
+    // Custom Cursor
+    const cursor = document.querySelector('.custom-cursor');
+    document.addEventListener('mousemove', (e) => {
+      cursor.style.left = `${e.clientX}px`;
+      cursor.style.top = `${e.clientY}px`;
+    });
+
+    document.querySelectorAll('a, .list-item, button').forEach(el => {
+      el.addEventListener('mouseenter', () => cursor.classList.add('hovered'));
+      el.addEventListener('mouseleave', () => cursor.classList.remove('hovered'));
+    });
+
+    // Language Switch
     function setLang(lang) {
       document.body.className = lang;
       document.querySelectorAll('.lang-en, .lang-de').forEach(el => el.classList.add('hidden'));
       document.querySelector(`.lang-${lang}`).classList.remove('hidden');
     }
 
-    // Initialize language based on user preference or default
     document.addEventListener('DOMContentLoaded', () => {
       const preferredLang = localStorage.getItem('lang') || 'en';
       setLang(preferredLang);
     });
 
-    // Save language preference
-    document.querySelectorAll('.lang-switch a').forEach(link => {
+    document.querySelectorAll('.lang-switch a:not([onclick*="toggleLowMotion"])').forEach(link => {
       link.addEventListener('click', (e) => {
         e.preventDefault();
         const lang = e.target.textContent.toLowerCase();
@@ -178,7 +319,28 @@
         setLang(lang);
       });
     });
+
+    // Low Motion Toggle
+    function toggleLowMotion() {
+      document.body.classList.toggle('low-motion');
+      localStorage.setItem('lowMotion', document.body.classList.contains('low-motion'));
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      if (localStorage.getItem('lowMotion') === 'true') {
+        document.body.classList.add('low-motion');
+      }
+    });
+
+    // Easter Egg: Logo 5x klicken
+    let logoClicks = 0;
+    document.querySelector('header img').addEventListener('click', () => {
+      logoClicks++;
+      if (logoClicks === 5 && typeof gsap !== 'undefined') {
+        gsap.to('header img', { rotation: 360, duration: 1, ease: 'bounce' });
+        logoClicks = 0;
+      }
+    });
   </script>
 </body>
 </html>
-
