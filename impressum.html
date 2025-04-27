@@ -60,6 +60,16 @@
       width: 100%;
       z-index: 50;
       border-bottom: 1px solid rgba(167, 243, 208, 0.2);
+      padding: 1rem;
+    }
+
+    .navbar .flex {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      max-width: 1280px; /* Korrigierte max-width */
+      margin: 0 auto;
+      flex-wrap: wrap; /* Verhindert Überlauf auf kleinen Bildschirmen */
     }
 
     .navbar a {
@@ -69,6 +79,24 @@
     .navbar a:hover {
       color: #10b981;
       transform: scale(1.05);
+    }
+
+    .navbar .flex .logo-section {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .navbar .flex .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+    }
+
+    .navbar .flex .lang-switch {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
     }
 
     .hero {
@@ -205,12 +233,50 @@
       }
 
       .navbar {
-        padding: 1rem;
+        padding: 0.5rem; /* Reduziertes Padding für Mobilgeräte */
       }
 
       .navbar .flex {
         flex-direction: column;
-        gap: 1rem;
+        gap: 0.75rem;
+        align-items: center; /* Zentriert die Elemente vertikal */
+        justify-content: center;
+        padding: 0.5rem;
+      }
+
+      .navbar .flex .logo-section {
+        flex-direction: row;
+        gap: 0.5rem;
+        margin-bottom: 0.5rem;
+      }
+
+      .navbar .flex .logo-section img {
+        width: 40px; /* Kleinere Logo-Größe für Mobilgeräte */
+      }
+
+      .navbar .flex .logo-section a {
+        font-size: 1.5rem; /* Kleinere Schriftgröße für den Titel */
+      }
+
+      .navbar .flex .nav-links {
+        flex-direction: row; /* Links bleiben horizontal, aber zentriert */
+        flex-wrap: wrap; /* Links können umbrechen, falls zu breit */
+        gap: 0.75rem;
+        justify-content: center;
+      }
+
+      .navbar .flex .nav-links a {
+        font-size: 1rem; /* Kleinere Schriftgröße für die Links */
+      }
+
+      .navbar .flex .lang-switch {
+        flex-direction: row;
+        gap: 0.5rem;
+        justify-content: center;
+      }
+
+      .navbar .flex .lang-switch a {
+        font-size: 1rem; /* Kleinere Schriftgröße für die Sprachauswahl */
       }
     }
   </style>
@@ -218,11 +284,11 @@
 <body class="en">
   <nav class="navbar px-6 py-4">
     <div class="flex items-center justify-between max-w-7xl mx-auto">
-      <div class="flex items-center">
+      <div class="logo-section">
         <img src="assets/logo.png" alt="Lamina Labs Logo" class="w-12 mr-4" />
         <a href="index.html" class="text-2xl font-bold text-emerald-400">Lamina Labs</a>
       </div>
-      <div class="flex items-center space-x-6">
+      <div class="nav-links">
         <a href="index.html" class="text-emerald-400">Home</a>
         <a href="privacy.html" class="text-emerald-400">Privacy</a>
         <a href="impressum.html" class="text-emerald-400">Impressum</a>
