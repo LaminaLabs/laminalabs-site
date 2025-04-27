@@ -3,112 +3,289 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Lamina Labs designs innovative tools, experiments, and unconventional software, including mobile AI interfaces, experimental games, and local-first apps." />
-  <meta name="keywords" content="Lamina Labs, AI interfaces, experimental games, local-first apps, OfflineGPT, Prompt Playground" />
+  <meta name="description" content="Lamina Labs offers innovative solutions including OfflineGPT, custom websites for businesses, bespoke software, and mobile apps using Android Studio and Flutter." />
+  <meta name="keywords" content="Lamina Labs, OfflineGPT, custom websites, bespoke software, mobile apps, Android Studio, Flutter" />
   <meta name="author" content="Lamina Labs" />
   <title>Lamina Labs</title>
   <link rel="icon" type="image/png" href="assets/logo.png" />
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
   <link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.2/css/all.min.css" rel="stylesheet" />
   <style>
-    @keyframes gradient {
-      0% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
-      100% { background-position: 0% 50%; }
+    @keyframes fadeInUp {
+      0% { opacity: 0; transform: translateY(20px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes slideInLeft {
+      0% { opacity: 0; transform: translateX(-20px); }
+      100% { opacity: 1; transform: translateX(0); }
+    }
+
+    @keyframes slideInRight {
+      0% { opacity: 0; transform: translateX(20px); }
+      100% { opacity: 1; transform: translateX(0); }
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+      100% { transform: scale(1); }
+    }
+
+    @keyframes glow {
+      0% { box-shadow: 0 0 5px rgba(16, 185, 129, 0.3); }
+      50% { box-shadow: 0 0 15px rgba(16, 185, 129, 0.5); }
+      100% { box-shadow: 0 0 5px rgba(16, 185, 129, 0.3); }
+    }
+
+    @keyframes moveLines {
+      0% { transform: translateY(0); }
+      100% { transform: translateY(-100%); }
     }
 
     body {
-      background: linear-gradient(45deg, #1a1a3d, #2a2a5e, #3a3a7d);
-      background-size: 400% 400%;
-      animation: gradient 15s ease infinite;
       font-family: 'Inter', system-ui, sans-serif;
-      color: #e5e7eb !important; /* Erzwingt Textfarbe */
+      color: #e5e7eb;
+      background: linear-gradient(135deg, #1a1a3d 0%, #2a2a5e 100%);
       scroll-behavior: smooth;
       overflow-x: hidden;
+      margin: 0;
     }
 
-    #particle-bg {
+    .navbar {
+      background: rgba(26, 26, 61, 0.9);
+      backdrop-filter: blur(10px);
       position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 50;
+      border-bottom: 1px solid rgba(167, 243, 208, 0.2);
+    }
+
+    .navbar a {
+      transition: color 0.3s ease, transform 0.3s ease;
+    }
+
+    .navbar a:hover {
+      color: #10b981;
+      transform: scale(1.05);
+    }
+
+    .hero {
+      background: url('assets/hero-bg.jpg') no-repeat center center/cover;
+      background-attachment: fixed;
+      position: relative;
+      overflow: hidden;
+      padding: 8rem 0 6rem;
+      text-align: center;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
-      z-index: -1 !important; /* Hintergrund bleibt hinten */
-    }
-
-    .main-container {
-      opacity: 1; /* Standardmäßig sichtbar */
-      transform: translateY(0);
-      z-index: 1; /* Sicherstellen, dass Inhalt vor Partikeln ist */
-    }
-
-    .card {
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid rgba(167, 243, 208, 0.3);
-      backdrop-filter: blur(12px);
-      transition: transform 0.3s ease, box-shadow 0.3s ease, backdrop-filter 0.3s ease;
-      position: relative;
-      overflow: hidden;
+      background: rgba(26, 26, 61, 0.7);
       z-index: 1;
     }
 
-    .card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-      backdrop-filter: blur(20px);
+    .hero::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 200%;
+      background: repeating-linear-gradient(
+        45deg,
+        transparent,
+        transparent 10px,
+        rgba(16, 185, 129, 0.1) 10px,
+        rgba(16, 185, 129, 0.1) 20px
+      );
+      animation: moveLines 20s linear infinite;
+      z-index: 2;
     }
 
-    .card::before {
+    .hero-content {
+      position: relative;
+      z-index: 3;
+    }
+
+    .hero-logo {
+      animation: pulse 2s infinite ease-in-out;
+    }
+
+    .hero h1 {
+      font-size: 3.5rem;
+      font-weight: 800;
+      color: #e5e7eb;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    }
+
+    .hero p {
+      font-size: 1.5rem;
+      color: #a7f3d0;
+      animation: fadeInUp 1s ease forwards;
+      animation-delay: 0.5s;
+      opacity: 0;
+    }
+
+    section {
+      padding: 5rem 2rem;
+      max-width: 1200px;
+      margin: 0 auto;
+      position: relative;
+      background: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZD0iTTEwIDB2MjBNMCAxMGgyMCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSJyZ2JhKDE2LCAxODUsIDEyOSwgMC4xKSIgc3Ryb2tlLXdpZHRoPSIxIi8+PC9zdmc+');
+    }
+
+    .section-title {
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: #10b981;
+      text-align: center;
+      margin-bottom: 3rem;
+      animation: fadeInUp 1s ease forwards;
+    }
+
+    .card {
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.05), rgba(16, 185, 129, 0.05));
+      border: 1px solid rgba(167, 243, 208, 0.3);
+      border-radius: 12px;
+      padding: 2rem;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      animation: fadeInUp 1s ease forwards;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card:hover {
+      transform: translateY(-10px) rotate(1deg);
+      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+      animation: glow 1.5s infinite ease-in-out;
+    }
+
+    .card img {
+      border-radius: 8px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+      margin-top: 2rem;
+    }
+
+    .card-grid .card {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      animation: slideInLeft 1s ease forwards;
+    }
+
+    .card-grid .card:nth-child(2) {
+      animation: slideInRight 1s ease forwards;
+    }
+
+    .card-grid .card:nth-child(3) {
+      animation: slideInLeft 1s ease forwards;
+    }
+
+    .card-grid .card h3 {
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: #e5e7eb;
+      margin: 1rem 0;
+    }
+
+    .card-grid .card p {
+      color: #a7f3d0;
+      margin-bottom: 1.5rem;
+    }
+
+    .btn {
+      background: #10b981;
+      color: #1a1a3d;
+      padding: 0.75rem 1.5rem;
+      border-radius: 8px;
+      font-weight: 600;
+      position: relative;
+      overflow: hidden;
+      transition: background 0.3s ease, transform 0.3s ease;
+    }
+
+    .btn::before {
       content: '';
       position: absolute;
       top: 0;
       left: -100%;
       width: 100%;
       height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(16, 185, 129, 0.2), transparent);
-      transition: 0.5s;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+      transition: left 0.5s ease;
     }
 
-    .card:hover::before {
+    .btn:hover::before {
       left: 100%;
     }
 
-    .list-item {
-      transition: color 0.3s ease, transform 0.3s ease;
+    .btn:hover {
+      background: #a7f3d0;
+      transform: scale(1.05);
     }
 
-    .list-item:hover {
-      color: #a7f3d0;
-      transform: translateX(5px);
+    .contact-section {
+      text-align: center;
+      background: rgba(26, 26, 61, 0.5);
+      padding: 3rem 2rem;
+      border-radius: 12px;
+      margin: 0 auto;
+      max-width: 1200px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      animation: fadeInUp 1s ease forwards;
     }
 
-    .list-item:hover .project-preview {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    .project-preview {
-      position: absolute;
-      top: 100%;
-      left: 0;
+    .contact-section h2 {
       width: 100%;
-      background: rgba(0, 0, 0, 0.8);
-      color: #10b981;
-      padding: 10px;
-      opacity: 0;
-      transform: translateY(10px);
-      transition: opacity 0.3s ease, transform 0.3s ease;
-      pointer-events: none;
-      z-index: 2;
+      margin: 0 auto;
     }
 
-    .lang-switch a {
+    .contact-section p {
+      width: 100%;
+      max-width: 600px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .contact-section .social-links {
+      display: flex;
+      justify-content: center;
+      width: 100%;
+      margin-top: 1rem;
+    }
+
+    .contact-section a {
+      color: #10b981;
       transition: color 0.3s ease, transform 0.3s ease;
     }
 
-    .lang-switch a:hover {
-      color: #10b981;
-      transform: scale(1.1);
+    .contact-section a:hover {
+      color: #a7f3d0;
+      transform: scale(1.05);
+    }
+
+    footer {
+      background: rgba(26, 26, 61, 0.9);
+      border-top: 1px solid rgba(167, 243, 208, 0.2);
+      padding: 2rem 0;
+      text-align: center;
     }
 
     footer a {
@@ -120,185 +297,192 @@
       transform: scale(1.05);
     }
 
-    .custom-cursor {
-      position: fixed;
-      width: 20px;
-      height: 20px;
-      border: 2px solid #10b981;
-      border-radius: 50%;
-      pointer-events: none;
-      transform: translate(-50%, -50%);
-      transition: transform 0.1s ease, background-color 0.3s ease;
-      z-index: 1000;
+    .social-links i {
+      font-size: 1.5rem;
+      margin: 0 1rem;
+      transition: transform 0.3s ease;
     }
 
-    .custom-cursor.hovered {
-      transform: translate(-50%, -50%) scale(1.5);
-      background-color: rgba(16, 185, 129, 0.2);
+    .social-links i:hover {
+      transform: translateY(-5px);
     }
 
-    .glitch {
-      position: relative;
-    }
+    @media (max-width: 768px) {
+      .hero h1 {
+        font-size: 2.5rem;
+      }
 
-    .glitch::before,
-    .glitch::after {
-      content: attr(data-text);
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-    }
+      .hero p {
+        font-size: 1.2rem;
+      }
 
-    .glitch::before {
-      color: #ff00ff;
-      animation: glitch-anim-1 2s infinite linear alternate-reverse;
-    }
+      .section-title {
+        font-size: 2rem;
+      }
 
-    .glitch::after {
-      color: #00ffff;
-      animation: glitch-anim-2 3s infinite linear alternate-reverse;
-    }
+      .card-grid {
+        grid-template-columns: 1fr;
+      }
 
-    @keyframes glitch-anim-1 {
-      0% { transform: translate(0); }
-      50% { transform: translate(-2px, 2px); }
-      100% { transform: translate(2px, -2px); }
-    }
+      .navbar {
+        padding: 1rem;
+      }
 
-    @keyframes glitch-anim-2 {
-      0% { transform: translate(0); }
-      50% { transform: translate(2px, -2px); }
-      100% { transform: translate(-2px, 2px); }
-    }
+      .navbar .flex {
+        flex-direction: column;
+        gap: 1rem;
+      }
 
-    .low-motion .card,
-    .low-motion .main-container,
-    .low-motion .list-item,
-    .low-motion .card::before {
-      animation: none !important;
-      transition: none !important;
-    }
+      .card {
+        flex-direction: column;
+        text-align: center;
+      }
 
-    /* Sicherstellen, dass Text sichtbar ist */
-    h1, h2, h3, p, a, li {
-      color: #e5e7eb !important;
-      z-index: 1;
-      position: relative;
+      .card img {
+        width: 100%;
+        margin-bottom: 1rem;
+      }
+
+      .contact-section {
+        margin: 0 1rem;
+      }
     }
   </style>
 </head>
 <body class="en">
-  <div id="particle-bg"></div>
-  <div class="custom-cursor"></div>
-  <div class="lang-switch fixed top-6 right-6 z-50">
-    <a href="#" onclick="setLang('en')" class="text-emerald-400 font-semibold mx-2" aria-label="Switch to English">EN</a>
-    <span class="text-gray-400">|</span>
-    <a href="#" onclick="setLang('de')" class="text-emerald-400 font-semibold mx-2" aria-label="Switch to German">DE</a>
-    <span class="text-gray-400">|</span>
-    <a href="#" onclick="toggleLowMotion()" class="text-emerald-400 font-semibold mx-2" aria-label="Toggle Low Motion">Low Motion</a>
+  <nav class="navbar px-6 py-4">
+    <div class="flex items-center justify-between max-w-7xl mx-auto">
+      <div class="flex items-center">
+        <img src="assets/logo.png" alt="Lamina Labs Logo" class="w-12 mr-4" />
+        <a href="index.html" class="text-2xl font-bold text-emerald-400">Lamina Labs</a>
+      </div>
+      <div class="flex items-center space-x-6">
+        <a href="index.html" class="text-emerald-400">Home</a>
+        <a href="privacy.html" class="text-emerald-400">Privacy</a>
+        <a href="impressum.html" class="text-emerald-400">Impressum</a>
+        <div class="lang-switch">
+          <a href="#" onclick="setLang('en')" class="text-emerald-400 mx-2" aria-label="Switch to English">EN</a>
+          <span class="text-gray-400">|</span>
+          <a href="#" onclick="setLang('de')" class="text-emerald-400 mx-2" aria-label="Switch to German">DE</a>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <div class="lang-en">
+    <div class="hero">
+      <div class="hero-content">
+        <img src="assets/logo.png" alt="Lamina Labs Logo" class="w-24 mx-auto mb-6 hero-logo" />
+        <h1>Lamina Labs</h1>
+        <p>Innovative Solutions for Your Business</p>
+      </div>
+    </div>
+
+    <section>
+      <h2 class="section-title">OfflineGPT – Your Offline AI Chat</h2>
+      <div class="card flex flex-col md:flex-row items-center gap-6">
+        <img src="assets/offlinegpt.png" alt="OfflineGPT Screenshot" class="w-full md:w-1/3 rounded-lg" />
+        <div class="flex-1">
+          <p class="text-white text-lg font-medium mb-6">OfflineGPT is a privacy-first AI chat app that runs entirely on your device. Powered by local language models, it ensures your conversations stay private with no data leaving your device.</p>
+          <a href="#" class="btn">Get it on Play Store</a>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2 class="section-title">Our Services</h2>
+      <div class="card-grid">
+        <div class="card">
+          <h3>Custom Websites for Businesses</h3>
+          <p>We design and develop modern, responsive websites tailored to your business needs, ensuring a seamless user experience.</p>
+          <a href="mailto:laminalabsofficial@gmail.com" class="btn">Learn More</a>
+        </div>
+        <div class="card">
+          <h3>Bespoke Software Solutions</h3>
+          <p>Our team creates custom software to solve your unique challenges, from automation tools to enterprise applications.</p>
+          <a href="mailto:laminalabsofficial@gmail.com" class="btn">Learn More</a>
+        </div>
+        <div class="card">
+          <h3>Mobile Apps with Android Studio & Flutter</h3>
+          <p>We build high-performance mobile apps using Android Studio and Flutter, delivering native experiences for iOS and Android.</p>
+          <a href="mailto:laminalabsofficial@gmail.com" class="btn">Learn More</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="contact-section">
+      <h2 class="section-title">Get in Touch</h2>
+      <p class="text-gray-200 mb-4">Have a project in mind? Reach out to us!</p>
+      <p class="mb-6"><a href="mailto:laminalabsofficial@gmail.com">laminalabsofficial@gmail.com</a></p>
+      <div class="social-links">
+        <a href="https://twitter.com/laminalabs" target="_blank" rel="noopener noreferrer" class="text-emerald-400" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+        <a href="https://github.com/laminalabs" target="_blank" rel="noopener noreferrer" class="text-emerald-400" aria-label="GitHub"><i class="fab fa-github"></i></a>
+      </div>
+    </section>
   </div>
 
-  <header class="text-center pt-16 pb-8">
-    <img src="assets/logo.png" alt="Lamina Labs Logo" class="w-20 mx-auto mb-4 filter drop-shadow-lg" />
-    <h1 class="text-4xl font-bold text-emerald-400 drop-shadow-md glitch" data-text="Lamina Labs">Lamina Labs</h1>
-  </header>
-
-  <main class="main-container max-w-3xl mx-auto px-6 py-8 card rounded-2xl">
-    <div class="lang-en">
-      <section>
-        <h2 class="text-2xl font-semibold text-emerald-400 mb-4 glitch" data-text="What We Do">What We Do</h2>
-        <p class="text-gray-300 mb-6">We design innovative tools, build experiments, and develop unconventional software—from private AI interfaces to indie game mechanics and local-first applications.</p>
-      </section>
-
-      <section>
-        <h2 class="text-2xl font-semibold text-emerald-400 mb-4 glitch" data-text="Focus Areas">Focus Areas</h2>
-        <ul class="list-disc pl-6 text-gray-300">
-          <li class="list-item mb-2"><i class="fas fa-mobile-alt mr-2"></i>Mobile AI Interfaces</li>
-          <li class="list-item mb-2"><i class="fas fa-gamepad mr-2"></i>Experimental Games & Prototypes</li>
-          <li class="list-item mb-2"><i class="fas fa-box mr-2"></i>Local-first & Offline Tools</li>
-          <li class="list-item mb-2"><i class="fas fa-brain mr-2"></i>Prompt-Driven Creativity</li>
-        </ul>
-      </section>
-
-      <section>
-        <h2 class="text-2xl font-semibold text-emerald-400 mb-4 glitch" data-text="Current Projects">Current Projects</h2>
-        <ul class="list-disc pl-6 text-gray-300">
-          <li class="list-item mb-2 relative"><strong>OfflineGPT</strong> – Offline AI chat app with local LLM<div class="project-preview">AI-powered chat, fully offline!</div></li>
-          <li class="list-item mb-2 relative"><strong>Prompt Playground</strong> – Creative assistant for writers & tinkerers<div class="project-preview">Unleash your creativity!</div></li>
-          <li class="list-item mb-2 relative"><strong>Microverse</strong> – A tiny metaphysical game world<div class="project-preview">Explore a mini universe!</div></li>
-          <li class="list-item mb-2 relative"><strong>APK Lab (coming soon)</strong> – Tools & tweaks for power users<div class="project-preview">Power tools incoming!</div></li>
-        </ul>
-      </section>
+  <div class="lang-de hidden">
+    <div class="hero">
+      <div class="hero-content">
+        <img src="assets/logo.png" alt="Lamina Labs Logo" class="w-24 mx-auto mb-6 hero-logo" />
+        <h1>Lamina Labs</h1>
+        <p>Innovative Lösungen für dein Unternehmen</p>
+      </div>
     </div>
 
-    <div class="lang-de hidden">
-      <section>
-        <h2 class="text-2xl font-semibold text-emerald-400 mb-4 glitch" data-text="Was wir tun">Was wir tun</h2>
-        <p class="text-gray-300 mb-6">Wir entwerfen innovative Tools, entwickeln Experimente und bauen unkonventionelle Software—von privater KI über Spielmechaniken bis zu lokalen Anwendungen.</p>
-      </section>
+    <section>
+      <h2 class="section-title">OfflineGPT – Dein Offline-KI-Chat</h2>
+      <div class="card flex flex-col md:flex-row items-center gap-6">
+        <img src="assets/offlinegpt.png" alt="OfflineGPT Screenshot" class="w-full md:w-1/3 rounded-lg" />
+        <div class="flex-1">
+          <p class="text-white text-lg font-medium mb-6">OfflineGPT ist eine datenschutzfreundliche KI-Chat-App, die komplett auf deinem Gerät läuft. Mit lokalen Sprachmodellen bleiben deine Gespräche privat und verlassen dein Gerät nicht.</p>
+          <a href="#" class="btn">Im Play Store herunterladen</a>
+        </div>
+      </div>
+    </section>
 
-      <section>
-        <h2 class="text-2xl font-semibold text-emerald-400 mb-4 glitch" data-text="Fokusbereiche">Fokusbereiche</h2>
-        <ul class="list-disc pl-6 text-gray-300">
-          <li class="list-item mb-2"><i class="fas fa-mobile-alt mr-2"></i>Mobile KI-Oberflächen</li>
-          <li class="list-item mb-2"><i class="fas fa-gamepad mr-2"></i>Experimentelle Spiele & Prototypen</li>
-          <li class="list-item mb-2"><i class="fas fa-box mr-2"></i>Lokale & Offline-Tools</li>
-          <li class="list-item mb-2"><i class="fas fa-brain mr-2"></i>Prompt-basierte Kreativität</li>
-        </ul>
-      </section>
+    <section>
+      <h2 class="section-title">Unsere Dienstleistungen</h2>
+      <div class="card-grid">
+        <div class="card">
+          <h3>Maßgeschneiderte Webseiten für Unternehmen</h3>
+          <p>Wir gestalten und entwickeln moderne, responsive Webseiten, die auf die Bedürfnisse deines Unternehmens zugeschnitten sind.</p>
+          <a href="mailto:laminalabsofficial@gmail.com" class="btn">Mehr erfahren</a>
+        </div>
+        <div class="card">
+          <h3>Individuelle Softwarelösungen</h3>
+          <p>Unser Team entwickelt maßgeschneiderte Software, um deine spezifischen Herausforderungen zu lösen, von Automatisierung bis zu Unternehmensanwendungen.</p>
+          <a href="mailto:laminalabsofficial@gmail.com" class="btn">Mehr erfahren</a>
+        </div>
+        <div class="card">
+          <h3>Mobile Apps mit Android Studio & Flutter</h3>
+          <p>Wir erstellen performante mobile Apps mit Android Studio und Flutter, die native Erlebnisse für iOS und Android bieten.</p>
+          <a href="mailto:laminalabsofficial@gmail.com" class="btn">Mehr erfahren</a>
+        </div>
+      </div>
+    </section>
 
-      <section>
-        <h2 class="text-2xl font-semibold text-emerald-400 mb-4 glitch" data-text="Aktuelle Projekte">Aktuelle Projekte</h2>
-        <ul class="list-disc pl-6 text-gray-300">
-          <li class="list-item mb-2 relative"><strong>OfflineGPT</strong> – Offline-Chat-KI mit lokalem Modell<div class="project-preview">KI-Chat, komplett offline!</div></li>
-          <li class="list-item mb-2 relative"><strong>Prompt Playground</strong> – Kreativassoziat für Schreibende & Tüftler<div class="project-preview">Entfessle deine Kreativität!</div></li>
-          <li class="list-item mb-2 relative"><strong>Microverse</strong> – Eine kleine metaphysische Spielwelt<div class="project-preview">Erkunde ein Mini-Universum!</div></li>
-          <li class="list-item mb-2 relative"><strong>APK Lab (demnächst)</strong> – Tools & Tweaks für Power-User<div class="project-preview">Power-Tools kommen bald!</div></li>
-        </ul>
-      </section>
-    </div>
-  </main>
+    <section class="contact-section">
+      <h2 class="section-title">Kontaktiere uns</h2>
+      <p class="text-gray-200 mb-4">Hast du ein Projekt im Kopf? Schreib uns!</p>
+      <p class="mb-6"><a href="mailto:laminalabsofficial@gmail.com">laminalabsofficial@gmail.com</a></p>
+      <div class="social-links">
+        <a href="https://twitter.com/laminalabs" target="_blank" rel="noopener noreferrer" class="text-emerald-400" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+        <a href="https://github.com/laminalabs" target="_blank" rel="noopener noreferrer" class="text-emerald-400" aria-label="GitHub"><i class="fab fa-github"></i></a>
+      </div>
+    </section>
+  </div>
 
-  <footer class="text-center py-8 border-t border-gray-700">
+  <footer>
     <div class="footer-links mb-4">
+      <a href="index.html" class="text-emerald-400 mx-3">Home</a>
       <a href="privacy.html" class="text-emerald-400 mx-3">Privacy</a>
       <a href="impressum.html" class="text-emerald-400 mx-3">Impressum</a>
     </div>
-    <div class="social-links mb-4">
-      <a href="https://twitter.com/laminalabs" target="_blank" rel="noopener noreferrer" class="text-emerald-400 mx-2" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
-      <a href="https://github.com/laminalabs" target="_blank" rel="noopener noreferrer" class="text-emerald-400 mx-2" aria-label="GitHub"><i class="fab fa-github"></i></a>
-    </div>
-    <p class="text-gray-500">&copy; 2025 Lamina Labs. All rights reserved.</p>
+    <p class="text-gray-500">© 2025 Lamina Labs. All rights reserved.</p>
   </footer>
 
-  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
-  <script type="module">
-    import { initParticles } from './js/particles.js';
-
-    // Initialize particles
-    initParticles();
-
-    // GSAP Animations (nur wenn GSAP geladen ist)
-    if (typeof gsap !== 'undefined') {
-      gsap.from('.main-container', { opacity: 0, y: 50, duration: 1, ease: 'power3.out' });
-      gsap.from('.card', { opacity: 0, scale: 0.8, stagger: 0.2, duration: 0.8, ease: 'elastic.out(1, 0.5)' });
-      gsap.from('.list-item', { opacity: 0, x: -20, stagger: 0.1, duration: 0.5, ease: 'power2.out' });
-    }
-
-    // Custom Cursor
-    const cursor = document.querySelector('.custom-cursor');
-    document.addEventListener('mousemove', (e) => {
-      cursor.style.left = `${e.clientX}px`;
-      cursor.style.top = `${e.clientY}px`;
-    });
-
-    document.querySelectorAll('a, .list-item, button').forEach(el => {
-      el.addEventListener('mouseenter', () => cursor.classList.add('hovered'));
-      el.addEventListener('mouseleave', () => cursor.classList.remove('hovered'));
-    });
-
+  <script>
     // Language Switch
     function setLang(lang) {
       document.body.className = lang;
@@ -311,7 +495,7 @@
       setLang(preferredLang);
     });
 
-    document.querySelectorAll('.lang-switch a:not([onclick*="toggleLowMotion"])').forEach(link => {
+    document.querySelectorAll('.lang-switch a').forEach(link => {
       link.addEventListener('click', (e) => {
         e.preventDefault();
         const lang = e.target.textContent.toLowerCase();
@@ -319,28 +503,7 @@
         setLang(lang);
       });
     });
-
-    // Low Motion Toggle
-    function toggleLowMotion() {
-      document.body.classList.toggle('low-motion');
-      localStorage.setItem('lowMotion', document.body.classList.contains('low-motion'));
-    }
-
-    document.addEventListener('DOMContentLoaded', () => {
-      if (localStorage.getItem('lowMotion') === 'true') {
-        document.body.classList.add('low-motion');
-      }
-    });
-
-    // Easter Egg: Logo 5x klicken
-    let logoClicks = 0;
-    document.querySelector('header img').addEventListener('click', () => {
-      logoClicks++;
-      if (logoClicks === 5 && typeof gsap !== 'undefined') {
-        gsap.to('header img', { rotation: 360, duration: 1, ease: 'bounce' });
-        logoClicks = 0;
-      }
-    });
   </script>
 </body>
 </html>
+
