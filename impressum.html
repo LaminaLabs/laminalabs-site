@@ -1,15 +1,37 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="de">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Impressum for Lamina Labs, providing legal information and contact details for laminalabs.app." />
-  <meta name="keywords" content="Lamina Labs, Impressum, legal notice, contact" />
+  <meta name="description" content="Impressum von Lamina Labs mit rechtlichen Informationen und Kontaktdaten für laminalabs.app." />
+  <meta name="keywords" content="Lamina Labs, Impressum, rechtliche Hinweise, Kontakt" />
   <meta name="author" content="Lamina Labs" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; img-src 'self' data:; font-src 'self' https://cdn.jsdelivr.net; connect-src 'self'" />
+  <meta http-equiv="X-Content-Type-Options" content="nosniff" />
+  <meta http-equiv="X-Frame-Options" content="DENY" />
+  <meta http-equiv="X-XSS-Protection" content="1; mode=block" />
   <title>Impressum – Lamina Labs</title>
   <link rel="icon" type="image/png" href="assets/logo.png" />
+  <link rel="preload" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" as="style" />
+  <link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.2/css/all.min.css" as="style" />
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
   <link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.2/css/all.min.css" rel="stylesheet" />
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebPage",
+      "name": "Impressum - Lamina Labs",
+      "description": "Impressum von Lamina Labs",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Lamina Labs",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://laminalabs.com/assets/logo.png"
+        }
+      }
+    }
+  </script>
   <style>
     @keyframes fadeInUp {
       0% { opacity: 0; transform: translateY(20px); }
@@ -281,62 +303,25 @@
     }
   </style>
 </head>
-<body class="en">
-  <nav class="navbar px-6 py-4">
-    <div class="flex items-center justify-between max-w-7xl mx-auto">
+<body class="de">
+  <nav class="navbar" role="navigation" aria-label="Hauptnavigation">
+    <div class="flex">
       <div class="logo-section">
-        <img src="assets/logo.png" alt="Lamina Labs Logo" class="w-12 mr-4" />
-        <a href="index.html" class="text-2xl font-bold text-emerald-400">Lamina Labs</a>
+        <img src="assets/logo.png" alt="Lamina Labs Logo" class="w-10 h-10" />
+        <span class="text-xl font-bold">Lamina Labs</span>
       </div>
+      <button class="mobile-menu-button hidden md:hidden" aria-label="Menü öffnen">
+        <i class="fas fa-bars"></i>
+      </button>
       <div class="nav-links">
-        <a href="index.html" class="text-emerald-400">Home</a>
-        <a href="privacy.html" class="text-emerald-400">Privacy</a>
-        <a href="impressum.html" class="text-emerald-400">Impressum</a>
-        <div class="lang-switch">
-          <a href="#" onclick="setLang('en')" class="text-emerald-400 mx-2" aria-label="Switch to English">EN</a>
-          <span class="text-gray-400">|</span>
-          <a href="#" onclick="setLang('de')" class="text-emerald-400 mx-2" aria-label="Switch to German">DE</a>
-        </div>
+        <a href="index.html" aria-label="Zur Startseite">Home</a>
+        <a href="privacy.html" aria-label="Datenschutzerklärung">Datenschutz</a>
+        <a href="impressum.html" aria-label="Impressum">Impressum</a>
       </div>
     </div>
   </nav>
 
-  <div class="lang-en">
-    <div class="hero">
-      <div class="hero-content">
-        <img src="assets/logo.png" alt="Lamina Labs Logo" class="w-24 mx-auto mb-6 hero-logo" />
-        <h1>Impressum</h1>
-      </div>
-    </div>
-
-    <section>
-      <p>This legal notice applies to all pages of Lamina Labs published under <strong>laminalabs.app</strong>.</p>
-    </section>
-
-    <section>
-      <h2>Responsible for Content</h2>
-      <p>F. B. (natural person)<br>
-      Email: <a href="mailto:laminalabsofficial@gmail.com">laminalabsofficial@gmail.com</a></p>
-    </section>
-
-    <section>
-      <h2>Disclaimer</h2>
-      <p>All content has been created with care. However, we do not guarantee accuracy, completeness, or timeliness. We are not responsible for external links.</p>
-      <p>The content on this website does not constitute legal advice. For legal inquiries, please consult a qualified professional.</p>
-    </section>
-
-    <section>
-      <h2>Hosting</h2>
-      <p>This website is hosted on Netlify. Server logs may be recorded by Netlify in accordance with their <a href="https://www.netlify.com/privacy/" target="_blank" rel="noopener noreferrer">privacy policy</a>.</p>
-    </section>
-
-    <section>
-      <h2>Copyright</h2>
-      <p>All content, including text, images, and logos, is the property of Lamina Labs unless otherwise stated. Unauthorized use or reproduction is prohibited.</p>
-    </section>
-  </div>
-
-  <div class="lang-de hidden">
+  <div class="lang-de">
     <div class="hero">
       <div class="hero-content">
         <img src="assets/logo.png" alt="Lamina Labs Logo" class="w-24 mx-auto mb-6 hero-logo" />
@@ -371,6 +356,10 @@
     </section>
   </div>
 
+  <a href="#" class="back-to-top" aria-label="Zurück nach oben">
+    <i class="fas fa-arrow-up"></i>
+  </a>
+
   <footer>
     <div class="footer-links mb-4">
       <a href="index.html" class="text-emerald-400 mx-3">Home</a>
@@ -381,24 +370,27 @@
   </footer>
 
   <script>
-    // Language Switch
-    function setLang(lang) {
-      document.body.className = lang;
-      document.querySelectorAll('.lang-en, .lang-de').forEach(el => el.classList.add('hidden'));
-      document.querySelector(`.lang-${lang}`).classList.remove('hidden');
-    }
-
-    document.addEventListener('DOMContentLoaded', () => {
-      const preferredLang = localStorage.getItem('lang') || 'en';
-      setLang(preferredLang);
+    // Mobile Menu Toggle
+    document.querySelector('.mobile-menu-button').addEventListener('click', () => {
+      document.querySelector('.nav-links').classList.toggle('active');
     });
 
-    document.querySelectorAll('.lang-switch a').forEach(link => {
-      link.addEventListener('click', (e) => {
-        e.preventDefault();
-        const lang = e.target.textContent.toLowerCase();
-        localStorage.setItem('lang', lang);
-        setLang(lang);
+    // Back to Top Button
+    const backToTop = document.querySelector('.back-to-top');
+    
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 300) {
+        backToTop.classList.add('visible');
+      } else {
+        backToTop.classList.remove('visible');
+      }
+    });
+
+    backToTop.addEventListener('click', (e) => {
+      e.preventDefault();
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
       });
     });
   </script>

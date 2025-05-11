@@ -1,15 +1,40 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="de">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Lamina Labs offers innovative solutions including OfflineGPT, custom websites for businesses, bespoke software, and mobile apps using Android Studio and Flutter." />
-  <meta name="keywords" content="Lamina Labs, OfflineGPT, custom websites, bespoke software, mobile apps, Android Studio, Flutter" />
+  <meta name="description" content="Lamina Labs bietet innovative Lösungen wie OfflineGPT, maßgeschneiderte Websites für Unternehmen, individuelle Software und mobile Apps mit Android Studio und Flutter." />
+  <meta name="keywords" content="Lamina Labs, OfflineGPT, maßgeschneiderte Websites, individuelle Software, mobile Apps, Android Studio, Flutter" />
   <meta name="author" content="Lamina Labs" />
-  <title>Lamina Labs</title>
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; img-src 'self' data:; font-src 'self' https://cdn.jsdelivr.net; connect-src 'self'" />
+  <meta http-equiv="X-Content-Type-Options" content="nosniff" />
+  <meta http-equiv="X-Frame-Options" content="DENY" />
+  <meta http-equiv="X-XSS-Protection" content="1; mode=block" />
+  <title>Lamina Labs - Innovative Softwarelösungen</title>
   <link rel="icon" type="image/png" href="assets/logo.png" />
+  <link rel="preload" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" as="style" />
+  <link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.2/css/all.min.css" as="style" />
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
   <link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.2/css/all.min.css" rel="stylesheet" />
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "Lamina Labs",
+      "description": "Innovative Softwarelösungen und Entwicklung",
+      "url": "https://laminalabs.com",
+      "logo": "https://laminalabs.com/assets/logo.png",
+      "sameAs": [
+        "https://twitter.com/laminalabs",
+        "https://github.com/laminalabs"
+      ],
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "email": "laminalabsofficial@gmail.com",
+        "contactType": "customer service"
+      }
+    }
+  </script>
   <style>
     @keyframes fadeInUp {
       0% { opacity: 0; transform: translateY(20px); }
@@ -176,6 +201,20 @@
       text-align: center;
       margin-bottom: 3rem;
       animation: fadeInUp 1s ease forwards;
+      position: relative;
+      padding-bottom: 1rem;
+    }
+
+    .section-title::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100px;
+      height: 3px;
+      background: #10b981;
+      border-radius: 2px;
     }
 
     .card {
@@ -280,27 +319,29 @@
       font-weight: 600;
       position: relative;
       overflow: hidden;
-      transition: background 0.3s ease, transform 0.3s ease;
-    }
-
-    .btn::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: -100%;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-      transition: left 0.5s ease;
-    }
-
-    .btn:hover::before {
-      left: 100%;
+      transition: all 0.3s ease;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      text-decoration: none;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     }
 
     .btn:hover {
-      background: #a7f3d0;
-      transform: scale(1.05);
+      background: #059669;
+      color: #ffffff;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    .btn:active {
+      transform: translateY(0);
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .btn i {
+      font-size: 1.2em;
     }
 
     .contact-section {
@@ -372,6 +413,52 @@
       transform: translateY(-5px);
     }
 
+    .mobile-menu-button {
+      display: none;
+      background: none;
+      border: none;
+      color: #10b981;
+      font-size: 1.5rem;
+      cursor: pointer;
+      padding: 0.5rem;
+      transition: transform 0.3s ease;
+    }
+
+    .mobile-menu-button:hover {
+      transform: scale(1.1);
+    }
+
+    .back-to-top {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      background: #10b981;
+      color: #1a1a3d;
+      width: 3rem;
+      height: 3rem;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      z-index: 100;
+    }
+
+    .back-to-top.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .back-to-top:hover {
+      background: #059669;
+      color: #ffffff;
+      transform: translateY(-5px);
+    }
+
     @media (max-width: 768px) {
       .hero h1 {
         font-size: 2.5rem;
@@ -416,14 +503,21 @@
       }
 
       .navbar .flex .nav-links {
-        flex-direction: row; /* Links bleiben horizontal, aber zentriert */
-        flex-wrap: wrap; /* Links können umbrechen, falls zu breit */
-        gap: 0.75rem;
-        justify-content: center;
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        width: 100%;
+        background: rgba(26, 26, 61, 0.95);
+        padding: 1rem;
+        flex-direction: column;
+        align-items: center;
+        gap: 1rem;
+        border-bottom: 1px solid rgba(167, 243, 208, 0.2);
       }
 
-      .navbar .flex .nav-links a {
-        font-size: 1rem; /* Kleinere Schriftgröße für die Links */
+      .navbar .flex .nav-links.active {
+        display: flex;
       }
 
       .navbar .flex .lang-switch {
@@ -449,16 +543,23 @@
       .contact-section {
         margin: 0 1rem;
       }
+
+      .mobile-menu-button {
+        display: block;
+      }
     }
   </style>
 </head>
-<body class="en">
+<body class="de">
   <nav class="navbar px-6 py-4">
     <div class="flex items-center justify-between max-w-7xl mx-auto">
       <div class="logo-section">
         <img src="assets/logo.png" alt="Lamina Labs Logo" class="w-12 mr-4" />
         <a href="index.html" class="text-2xl font-bold text-emerald-400">Lamina Labs</a>
       </div>
+      <button class="mobile-menu-button" aria-label="Menü öffnen">
+        <i class="fas fa-bars"></i>
+      </button>
       <div class="nav-links">
         <a href="index.html" class="text-emerald-400">Home</a>
         <a href="privacy.html" class="text-emerald-400">Privacy</a>
@@ -472,10 +573,14 @@
     </div>
   </nav>
 
-  <div class="lang-en">
+  <a href="#" class="back-to-top" aria-label="Zurück nach oben">
+    <i class="fas fa-arrow-up"></i>
+  </a>
+
+  <div class="lang-en hidden">
     <div class="hero">
       <div class="hero-content">
-        <img src="assets/logo.png" alt="Lamina Labs Logo" class="w-24 mx-auto mb-6 hero-logo" />
+        <img src="assets/logo.png" alt="Lamina Labs Logo" class="w-24 mx-auto mb-6 hero-logo" loading="eager" width="96" height="96" />
         <h1>Lamina Labs</h1>
         <p>Innovative Solutions for Your Business</p>
       </div>
@@ -486,7 +591,7 @@
       <div class="project-list">
         <!-- OfflineGPT Projekt -->
         <div class="project-item">
-          <img src="assets/offlinegpt-icon.png" alt="OfflineGPT Icon" class="project-icon" />
+          <img src="assets/offlinegpt-icon.png" alt="OfflineGPT Icon" class="project-icon" loading="lazy" width="48" height="48" />
           <div class="flex-1">
             <h3>OfflineGPT – Your Offline AI Chat</h3>
             <p class="text-white text-lg font-medium mb-6">OfflineGPT is a privacy-first AI chat app that runs entirely on your device. Powered by local language models, it ensures your conversations stay private with no data leaving your device.</p>
@@ -495,7 +600,7 @@
         </div>
         <!-- Pocket Arcade Projekt -->
         <div class="project-item">
-          <img src="assets/pocketarcade-icon.png" alt="Pocket Arcade Icon" class="project-icon" />
+          <img src="assets/pocketarcade-icon.png" alt="Pocket Arcade Icon" class="project-icon" loading="lazy" width="48" height="48" />
           <div class="flex-1">
             <h3>Pocket Arcade – Retro & Mini Games</h3>
             <p class="text-white text-lg font-medium mb-6">Discover hundreds of retro and mini-games – all offline, all free to play. Install once, have fun anywhere. No online requirement. Just start playing!</p>
@@ -537,10 +642,10 @@
     </section>
   </div>
 
-  <div class="lang-de hidden">
+  <div class="lang-de">
     <div class="hero">
       <div class="hero-content">
-        <img src="assets/logo.png" alt="Lamina Labs Logo" class="w-24 mx-auto mb-6 hero-logo" />
+        <img src="assets/logo.png" alt="Lamina Labs Logo" class="w-24 mx-auto mb-6 hero-logo" loading="eager" width="96" height="96" />
         <h1>Lamina Labs</h1>
         <p>Innovative Lösungen für dein Unternehmen</p>
       </div>
@@ -551,20 +656,26 @@
       <div class="project-list">
         <!-- OfflineGPT Projekt -->
         <div class="project-item">
-          <img src="assets/offlinegpt-icon.png" alt="OfflineGPT Icon" class="project-icon" />
+          <img src="assets/offlinegpt-icon.png" alt="OfflineGPT Icon" class="project-icon" loading="lazy" width="48" height="48" />
           <div class="flex-1">
             <h3>OfflineGPT – Dein Offline-KI-Chat</h3>
             <p class="text-white text-lg font-medium mb-6">OfflineGPT ist eine datenschutzfreundliche KI-Chat-App, die komplett auf deinem Gerät läuft. Mit lokalen Sprachmodellen bleiben deine Gespräche privat und verlassen dein Gerät nicht.</p>
-            <a href="/games/offlinegpt" class="btn">Erfahre mehr und werde früher Tester!</a>
+            <a href="/games/offlinegpt" class="btn">
+              <i class="fas fa-rocket"></i>
+              Erfahre mehr und werde früher Tester!
+            </a>
           </div>
         </div>
         <!-- Pocket Arcade Projekt -->
         <div class="project-item">
-          <img src="assets/pocketarcade-icon.png" alt="Pocket Arcade Icon" class="project-icon" />
+          <img src="assets/pocketarcade-icon.png" alt="Pocket Arcade Icon" class="project-icon" loading="lazy" width="48" height="48" />
           <div class="flex-1">
             <h3>Pocket Arcade – Retro- & Minispiele</h3>
             <p class="text-white text-lg font-medium mb-6">Entdecke hunderte Retro- und Minispiele – alle offline, alle kostenlos spielbar. Einmal installieren, überall Spaß haben. Keine Online-Pflicht. Einfach loszocken!</p>
-            <a href="/games/pocketarcade" class="btn">Erfahre mehr und werde früher Tester!</a>
+            <a href="/games/pocketarcade" class="btn">
+              <i class="fas fa-gamepad"></i>
+              Erfahre mehr und werde früher Tester!
+            </a>
           </div>
         </div>
       </div>
@@ -620,7 +731,7 @@
     }
 
     document.addEventListener('DOMContentLoaded', () => {
-      const preferredLang = localStorage.getItem('lang') || 'en';
+      const preferredLang = localStorage.getItem('lang') || 'de';
       setLang(preferredLang);
     });
 
@@ -630,6 +741,30 @@
         const lang = e.target.textContent.toLowerCase();
         localStorage.setItem('lang', lang);
         setLang(lang);
+      });
+    });
+
+    // Mobile Menu Toggle
+    document.querySelector('.mobile-menu-button').addEventListener('click', () => {
+      document.querySelector('.nav-links').classList.toggle('active');
+    });
+
+    // Back to Top Button
+    const backToTop = document.querySelector('.back-to-top');
+    
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 300) {
+        backToTop.classList.add('visible');
+      } else {
+        backToTop.classList.remove('visible');
+      }
+    });
+
+    backToTop.addEventListener('click', (e) => {
+      e.preventDefault();
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
       });
     });
   </script>
